@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VDX Component Library — Class Inventory</title>
+<style>
+  :root{
+    --bg:#f6f7f9;
+    --surface:#ffffff;
+    --border:#e6e8ee;
+    --text:#161b26;
+    --text-2:#5b6478;
+    --text-3:#8b93a5;
+    --accent:#4f46e5;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* ---------- shell ---------- */
+  .wrap{
+    display:grid;
+    grid-template-columns:252px minmax(0,1fr);
+    align-items:start;
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    background:var(--surface);
+    border-right:1px solid var(--border);
+    padding:20px 12px 40px;
+    scrollbar-width:thin;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 8px 18px;
+  }
+  .brand__mark{
+    width:32px;height:32px;flex:0 0 32px;
+    border-radius:9px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:#fff;
+    display:grid;place-items:center;
+    font-weight:700;font-size:12px;letter-spacing:.4px;
+  }
+  .brand__name{ font-weight:650;font-size:14px;letter-spacing:-.01em;line-height:1.25; }
+  .brand__sub{ font-size:11.5px;color:var(--text-3); }
+
+  .nav{ display:flex;flex-direction:column;gap:1px; }
+  .nav a{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:6px 10px;
+    border-radius:8px;
+    color:var(--text-2);
+    text-decoration:none;
+    font-size:13.5px;
+    transition:background .12s, color .12s;
+  }
+  .nav a:hover{ background:#f2f4f8;color:var(--text); }
+  .nav a.is-active{ background:#eef0ff;color:#4338ca;font-weight:600; }
+  .nav .count{
+    font-size:11px;color:var(--text-3);
+    font-variant-numeric:tabular-nums;
+    background:#f2f4f8;
+    padding:1px 6px;
+    border-radius:20px;
+  }
+  .nav a.is-active .count{ background:#e0e3ff;color:#4f46e5; }
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+    padding:13px 34px;
+    background:rgba(246,247,249,.88);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+
+  .search{ position:relative;flex:1 1 240px;max-width:400px; }
+  .search svg{
+    position:absolute;left:11px;top:50%;transform:translateY(-50%);
+    color:var(--text-3);pointer-events:none;
+  }
+  .search input{
+    width:100%;
+    padding:9px 12px 9px 34px;
+    border:1px solid #dfe3ea;
+    border-radius:9px;
+    background:#fff;
+    font:inherit;
+    font-size:13.5px;
+    color:inherit;
+    outline:none;
+    transition:border-color .12s, box-shadow .12s;
+  }
+  .search input::placeholder{ color:#a3abbb; }
+  .search input:focus{
+    border-color:#a5b4fc;
+    box-shadow:0 0 0 3px rgba(99,102,241,.14);
+  }
+
+  .legend{
+    display:flex;gap:14px;flex-wrap:wrap;
+    font-size:12px;color:var(--text-2);
+  }
+  .legend span{ display:inline-flex;align-items:center;gap:6px; }
+  .dot{ width:8px;height:8px;border-radius:50%;display:inline-block; }
+
+  .total{
+    margin-left:auto;
+    font-size:12.5px;
+    color:var(--text-3);
+    white-space:nowrap;
+  }
+  .total strong{
+    color:var(--text);
+    font-variant-numeric:tabular-nums;
+    font-weight:650;
+  }
+
+  /* ---------- content ---------- */
+  .sections{
+    padding:26px 34px 90px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .section{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:19px 22px 21px;
+    scroll-margin-top:88px;
+  }
+
+  .section__head{
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    margin-bottom:3px;
+  }
+  .section__title{
+    margin:0;
+    font-size:15.5px;
+    font-weight:650;
+    letter-spacing:-.01em;
+  }
+  .section__count{
+    font-size:11px;
+    font-weight:650;
+    color:var(--text-3);
+    background:#f2f4f8;
+    padding:2px 8px;
+    border-radius:20px;
+    font-variant-numeric:tabular-nums;
+  }
+  .section__desc{
+    margin:0 0 15px;
+    font-size:13px;
+    color:var(--text-2);
+  }
+
+  .pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+
+  .pill{
+    font-family:var(--mono);
+    font-size:12.5px;
+    line-height:1.45;
+    padding:4px 9px;
+    border-radius:7px;
+    border:1px solid transparent;
+    cursor:pointer;
+    user-select:none;
+    white-space:nowrap;
+    transition:transform .08s ease, box-shadow .12s ease, background .12s;
+  }
+  .pill:hover{ transform:translateY(-1px); box-shadow:0 2px 8px rgba(16,24,40,.10); }
+  .pill:active{ transform:translateY(0); }
+  .pill:focus-visible{ outline:2px solid #a5b4fc;outline-offset:1px; }
+
+  .pill--base{     background:#f1f3f7; color:#334155; border-color:#e4e8ef; }
+  .pill--element{  background:#eef4ff; color:#1d4ed8; border-color:#dbe6fe; }
+  .pill--modifier{ background:#f6f1ff; color:#7c3aed; border-color:#e9defd; }
+  .pill--tag{      background:#ecfdf5; color:#047857; border-color:#d1fae5; }
+
+  .no-results{
+    display:none;
+    text-align:center;
+    padding:70px 20px;
+    color:var(--text-3);
+    font-size:14px;
+  }
+  .no-results strong{ color:var(--text-2); }
+
+  /* ---------- copy toast ---------- */
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:28px;
+    transform:translateX(-50%) translateY(14px);
+    background:#111827;
+    color:#fff;
+    font-size:13px;
+    padding:9px 16px;
+    border-radius:9px;
+    box-shadow:0 10px 30px rgba(16,24,40,.24);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+    z-index:100;
+    font-family:var(--mono);
+    font-size:12.5px;
+    max-width:90vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .toast.is-visible{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .wrap{ grid-template-columns:1fr; }
+    .sidebar{
+      position:static;
+      height:auto;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:12px 16px;
+      overflow-x:auto;
+      border-right:none;
+      border-bottom:1px solid var(--border);
+      scrollbar-width:none;
+    }
+    .sidebar::-webkit-scrollbar{ display:none; }
+    .brand{ padding:0;flex-shrink:0; }
+    .brand__sub{ display:none; }
+    .nav{ flex-direction:row;gap:6px; }
+    .nav a{ white-space:nowrap;background:#f2f4f8;padding:6px 10px; }
+    .nav .count{ display:none; }
+    .topbar{ padding:12px 16px;gap:12px; }
+    .legend{ display:none; }
+    .total{ margin-left:0; }
+    .sections{ padding:18px 16px 70px;gap:16px; }
+    .section{ padding:16px 16px 18px;border-radius:12px;scroll-margin-top:130px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand__mark">VDX</div>
+      <div>
+        <div class="brand__name">Component Library</div>
+        <div class="brand__sub">Class inventory</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+    <header class="topbar">
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+        <input id="search" type="search" placeholder="Search classes…  e.g. btn, modal, --active" autocomplete="off" spellcheck="false" aria-label="Search classes" />
+      </div>
+
+      <div class="legend">
+        <span><i class="dot" style="background:#94a3b8"></i>base</span>
+        <span><i class="dot" style="background:#3b82f6"></i>element</span>
+        <span><i class="dot" style="background:#8b5cf6"></i>modifier</span>
+        <span><i class="dot" style="background:#10b981"></i>tag</span>
+      </div>
+
+      <div class="total"><strong id="total">0</strong> classes</div>
+    </header>
+
+    <div class="sections" id="sections"></div>
+    <div class="no-results" id="noResults">No classes match <strong id="noResultsTerm"></strong></div>
+  </main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ------------------------------------------------------------------
+   DATA — the whole inventory lives here.
+   ------------------------------------------------------------------ */
+const SECTIONS = [
+  {
+    id:'layout', title:'Layout',
+    desc:'Application shell, page scaffolding and grid / stack primitives.',
+    classes:['.vdx-app-shell','.vdx-app-body','.vdx-main-content','.vdx-topbar','.vdx-topbar__start','.vdx-topbar__center','.vdx-topbar__end','.vdx-container','.vdx-grid','.vdx-grid--2','.vdx-grid--3','.vdx-grid--4','.vdx-stack','.vdx-inline']
+  },
+  {
+    id:'sidebar', title:'Sidebar',
+    desc:'Primary navigation rail with collapsible state and nav item parts.',
+    classes:['.vdx-sidebar','.vdx-sidebar--collapsed','.vdx-nav','.vdx-nav__group-label','.vdx-nav__item','.vdx-nav__item--active','.vdx-nav__icon','.vdx-nav__label','.vdx-nav__badge','.vdx-sidebar__toggle']
+  },
+  {
+    id:'buttons', title:'Buttons',
+    desc:'Action triggers across variants, sizes and grouped layouts.',
+    classes:['.vdx-btn','.vdx-btn--primary','.vdx-btn--secondary','.vdx-btn--outline','.vdx-btn--ghost','.vdx-btn--destructive','.vdx-btn--sm','.vdx-btn--lg','.vdx-btn--loading','.vdx-btn-icon','.vdx-btn-group']
+  },
+  {
+    id:'cards', title:'Cards',
+    desc:'Flexible content containers with density, elevation and selection states.',
+    classes:['.vdx-card','.vdx-card--compact','.vdx-card--comfortable','.vdx-card--raised','.vdx-card--flat','.vdx-card--clickable','.vdx-card--selected','.vdx-card__header','.vdx-card__title','.vdx-card__body','.vdx-card__footer']
+  },
+  {
+    id:'badges', title:'Badges',
+    desc:'Compact status and count indicators.',
+    classes:['.vdx-badge','.vdx-badge--success','.vdx-badge--warning','.vdx-badge--error','.vdx-badge--info','.vdx-badge--primary','.vdx-badge--navy','.vdx-badge--count','.vdx-badge--dot']
+  },
+  {
+    id:'chips', title:'Chips',
+    desc:'Selectable and removable tokens for filters and tags.',
+    classes:['.vdx-chip','.vdx-chip--selectable','.vdx-chip--selected','.vdx-chip__remove']
+  },
+  {
+    id:'avatar', title:'Avatar',
+    desc:'User and entity imagery with a size scale and presence status.',
+    classes:['.vdx-avatar','.vdx-avatar--xs','.vdx-avatar--sm','.vdx-avatar--md','.vdx-avatar--lg','.vdx-avatar--xl','.vdx-avatar-wrapper','.vdx-avatar-status','.vdx-avatar-status--online','.vdx-avatar-status--away','.vdx-avatar-status--offline']
+  },
+  {
+    id:'tabs', title:'Tabs',
+    desc:'Horizontal section switching with associated tab panels.',
+    classes:['.vdx-tabs','.vdx-tabs__list','.vdx-tabs__tab','.vdx-tabs__tab--active','.vdx-tabs__panel']
+  },
+  {
+    id:'accordion', title:'Accordion',
+    desc:'Collapsible content sections with trigger, icon and panel.',
+    classes:['.vdx-accordion','.vdx-accordion__item','.vdx-accordion__trigger','.vdx-accordion__icon','.vdx-accordion__content']
+  },
+  {
+    id:'breadcrumb', title:'Breadcrumb',
+    desc:'Hierarchical location trail.',
+    classes:['.vdx-breadcrumb','.vdx-breadcrumb__list','.vdx-breadcrumb__item','.vdx-breadcrumb__link','.vdx-breadcrumb__current']
+  },
+  {
+    id:'stepper', title:'Stepper',
+    desc:'Multi-step progress for wizards and linear flows.',
+    classes:['.vdx-stepper','.vdx-stepper--vertical','.vdx-stepper__step','.vdx-stepper__step--active','.vdx-stepper__step--completed','.vdx-stepper__step--error','.vdx-stepper__indicator','.vdx-stepper__label']
+  },
+  {
+    id:'modal', title:'Modal',
+    desc:'Centered overlay dialogs across five width presets.',
+    classes:['.vdx-modal-backdrop','.vdx-modal','.vdx-modal--sm','.vdx-modal--md','.vdx-modal--lg','.vdx-modal--xl','.vdx-modal--fullscreen','.vdx-modal__header','.vdx-modal__title','.vdx-modal__body','.vdx-modal__footer']
+  },
+  {
+    id:'drawer', title:'Drawer',
+    desc:'Edge-anchored sliding panels.',
+    classes:['.vdx-drawer-backdrop','.vdx-drawer','.vdx-drawer--sm','.vdx-drawer--md','.vdx-drawer--lg','.vdx-drawer--closed','.vdx-drawer__header','.vdx-drawer__title','.vdx-drawer__body','.vdx-drawer__footer']
+  },
+  {
+    id:'tooltip-popover', title:'Tooltip / Popover',
+    desc:'Contextual hover and click-triggered overlays.',
+    classes:['.vdx-tooltip','.vdx-popover']
+  },
+  {
+    id:'alerts', title:'Alerts',
+    desc:'Inline and banner-level feedback messages.',
+    classes:['.vdx-alert','.vdx-alert--success','.vdx-alert--warning','.vdx-alert--error','.vdx-alert--info','.vdx-alert__icon','.vdx-alert__content','.vdx-alert__title','.vdx-alert__dismiss','.vdx-alert-banner','.vdx-alert-banner--success','.vdx-alert-banner--warning','.vdx-alert-banner--error','.vdx-alert-banner--info']
+  },
+  {
+    id:'toasts', title:'Toasts',
+    desc:'Transient notification stack.',
+    classes:['.vdx-toast-region','.vdx-toast','.vdx-toast--success','.vdx-toast--warning','.vdx-toast--error','.vdx-toast--info','.vdx-toast__content','.vdx-toast__title','.vdx-toast__body','.vdx-toast__close']
+  },
+  {
+    id:'forms', title:'Forms',
+    desc:'Inputs, controls, validation messaging, dropzone and form layout helpers.',
+    classes:['.vdx-form-field','.vdx-label','.vdx-label__required','.vdx-input','.vdx-input--sm','.vdx-input--lg','.vdx-input-wrapper','.vdx-input-prefix','.vdx-input-suffix','.vdx-textarea','.vdx-select','.vdx-checkbox-wrapper','.vdx-checkbox','.vdx-radio-wrapper','.vdx-radio','.vdx-toggle-wrapper','.vdx-toggle','.vdx-search-wrapper','.vdx-search-icon','.vdx-hint','.vdx-error-text','.vdx-success-text','.vdx-dropzone','.vdx-dropzone--drag-over','.vdx-dropzone__icon','.vdx-dropzone__title','.vdx-dropzone__hint','.vdx-form-grid','.vdx-form-grid--3','.vdx-form-actions','.vdx-validation-summary']
+  },
+  {
+    id:'table', title:'Table',
+    desc:'Data grid with density, sorting, selection states and toolbar.',
+    classes:['.vdx-table-wrapper','.vdx-table','.vdx-table--compact','.vdx-table--spacious','.vdx-table--striped','.vdx-table__th--sortable','.vdx-table__sort-icon','.vdx-table__row--selected','.vdx-table__row--error','.vdx-table__col-check','.vdx-table__cell--mono','.vdx-table__cell--numeric','.vdx-table__cell--muted','.vdx-table__cell--actions','.vdx-table-toolbar','.vdx-table-toolbar__left','.vdx-table-toolbar__right']
+  },
+  {
+    id:'paginator', title:'Paginator',
+    desc:'Page navigation and page-size controls.',
+    classes:['.vdx-paginator','.vdx-paginator__info','.vdx-paginator__controls','.vdx-paginator__btn','.vdx-paginator__page-size']
+  },
+  {
+    id:'kpi-cards', title:'KPI Cards',
+    desc:'Metric tiles with trend direction and period context.',
+    classes:['.vdx-kpi-card','.vdx-kpi-card__label','.vdx-kpi-card__value','.vdx-kpi-card__trend','.vdx-kpi-card__trend--up','.vdx-kpi-card__trend--down','.vdx-kpi-card__trend--neutral','.vdx-kpi-card__period']
+  },
+  {
+    id:'loading', title:'Loading',
+    desc:'Spinners, skeleton placeholders and progress indicators.',
+    classes:['.vdx-spinner','.vdx-spinner--xs','.vdx-spinner--sm','.vdx-spinner--md','.vdx-spinner--lg','.vdx-spinner--xl','.vdx-skeleton','.vdx-skeleton--text','.vdx-skeleton--circle','.vdx-skeleton--card','.vdx-progress','.vdx-progress__bar','.vdx-progress--indeterminate','.vdx-progress--sm','.vdx-progress--lg']
+  },
+  {
+    id:'empty-state', title:'Empty State',
+    desc:'Zero-data placeholder with icon, copy and call to action.',
+    classes:['.vdx-empty','.vdx-empty__icon','.vdx-empty__title','.vdx-empty__body','.vdx-empty__actions']
+  },
+  {
+    id:'timeline', title:'Timeline',
+    desc:'Chronological event list with status dots.',
+    classes:['.vdx-timeline','.vdx-timeline__item','.vdx-timeline__dot','.vdx-timeline__dot--success','.vdx-timeline__dot--warning','.vdx-timeline__dot--error','.vdx-timeline__dot--info','.vdx-timeline__content','.vdx-timeline__event','.vdx-timeline__time','.vdx-timeline__body']
+  },
+  {
+    id:'status-chips', title:'Status Chips',
+    desc:'Lifecycle status indicators for policy and claim workflows.',
+    classes:['.vdx-status-chip','.vdx-status-chip__dot','.vdx-status-chip--draft','.vdx-status-chip--quoted','.vdx-status-chip--bound','.vdx-status-chip--active','.vdx-status-chip--renewal','.vdx-status-chip--expired','.vdx-status-chip--cancelled','.vdx-status-chip--open','.vdx-status-chip--in-review','.vdx-status-chip--pending','.vdx-status-chip--settled','.vdx-status-chip--closed','.vdx-status-chip--denied']
+  },
+  {
+    id:'insurance-domain', title:'Insurance Domain',
+    desc:'Insurance-specific composites — premiums, coverage and audit trail.',
+    classes:['.vdx-premium-card','.vdx-premium-row','.vdx-premium-row--total','.vdx-coverage-tile','.vdx-audit-change']
+  },
+  {
+    id:'documents', title:'Documents',
+    desc:'Attachment and document row presentation.',
+    classes:['.vdx-attachment','.vdx-attachment--uploading','.vdx-attachment--error','.vdx-doc-row']
+  },
+  {
+    id:'notifications', title:'Notifications',
+    desc:'Notification feed, unread items and counters.',
+    classes:['.vdx-notification-feed','.vdx-notification-item','.vdx-notification-item--unread','.vdx-notif-count']
+  },
+  {
+    id:'charts', title:'Charts',
+    desc:'Chart container wrappers and empty chart states.',
+    classes:['.vdx-chart-wrapper','.vdx-chart-wrapper__header','.vdx-chart-empty']
+  },
+  {
+    id:'typography', title:'Typography',
+    desc:'Heading scale, text styles, tones and truncation utilities.',
+    classes:['h1','h2','h3','h4','h5','h6','.vdx-h1','.vdx-h2','.vdx-h3','.vdx-h4','.vdx-h5','.vdx-h6','.vdx-display-2xl','.vdx-display-xl','.vdx-body-lg','.vdx-body-md','.vdx-body-sm','.vdx-body-xs','.vdx-label-lg','.vdx-label-md','.vdx-label-sm','.vdx-caption','.vdx-mono-md','.vdx-mono-sm','.vdx-text-primary','.vdx-text-secondary','.vdx-text-tertiary','.vdx-text-error','.vdx-text-success','.vdx-text-warning','.vdx-text-info','.vdx-truncate','.vdx-clamp-2','.vdx-clamp-3']
+  },
+  {
+    id:'dl', title:'DL (Key-Value)',
+    desc:'Definition list layouts for label / value pairs.',
+    classes:['.vdx-dl','.vdx-dl--3','.vdx-dl--full','.vdx-dl__term','.vdx-dl__value']
+  },
+  {
+    id:'page-header', title:'Page Header',
+    desc:'Standard page title block with subtitle and actions.',
+    classes:['.vdx-page-header','.vdx-page-header__content','.vdx-page-header__title','.vdx-page-header__subtitle','.vdx-page-header__actions']
+  },
+  {
+    id:'misc', title:'Misc',
+    desc:'Dividers, logo lockup and accessibility helpers.',
+    classes:['.vdx-divider','.vdx-divider--strong','.vdx-logo','.vdx-logo__text','.vdx-logo__text-accent','.vdx-sr-only']
+  }
+];
+
+/* ------------------------------------------------------------------
+   Helpers
+   ------------------------------------------------------------------ */
+function typeOf(name){
+  if(!name.startsWith('.')) return 'tag';
+  const n = name.slice(1);
+  if(n.includes('--')) return 'modifier';
+  if(n.includes('__')) return 'element';
+  return 'base';
+}
+
+function labelOf(name){
+  return name.startsWith('.') ? name : '<' + name + '>';
+}
+
+const navEl      = document.getElementById('nav');
+const sectionsEl = document.getElementById('sections');
+const totalEl    = document.getElementById('total');
+const searchEl   = document.getElementById('search');
+const noResults  = document.getElementById('noResults');
+const noTerm     = document.getElementById('noResultsTerm');
+const toastEl    = document.getElementById('toast');
+
+/* ------------------------------------------------------------------
+   Render
+   ------------------------------------------------------------------ */
+const GRAND_TOTAL = SECTIONS.reduce((sum, s) => sum + s.classes.length, 0);
+totalEl.textContent = GRAND_TOTAL;
+
+SECTIONS.forEach(sec => {
+  /* nav link */
+  const a = document.createElement('a');
+  a.href = '#' + sec.id;
+  a.dataset.target = sec.id;
+  a.innerHTML = '<span>' + sec.title + '</span><span class="count">' + sec.classes.length + '</span>';
+  navEl.appendChild(a);
+
+  /* section */
+  const section = document.createElement('section');
+  section.className = 'section';
+  section.id = sec.id;
+
+  const head = document.createElement('div');
+  head.className = 'section__head';
+  head.innerHTML =
+    '<h2 class="section__title"></h2>' +
+    '<span class="section__count">' + sec.classes.length + '</span>';
+  head.querySelector('.section__title').textContent = sec.title;
+
+  const desc = document.createElement('p');
+  desc.className = 'section__desc';
+  desc.textContent = sec.desc;
+
+  const pills = document.createElement('div');
+  pills.className = 'pills';
+
+  sec.classes.forEach(cls => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pill pill--' + typeOf(cls);
+    btn.dataset.name = cls;
+    btn.textContent = labelOf(cls);
+    btn.title = 'Click to copy  ' + labelOf(cls);
+    pills.appendChild(btn);
+  });
+
+  section.append(head, desc, pills);
+  sectionsEl.appendChild(section);
+});
+
+/* ------------------------------------------------------------------
+   Copy to clipboard
+   ------------------------------------------------------------------ */
+let toastTimer;
+sectionsEl.addEventListener('click', e => {
+  const pill = e.target.closest('.pill');
+  if(!pill) return;
+  const text = pill.dataset.name;
+
+  const done = () => {
+    toastEl.textContent = 'Copied  ' + text;
+    toastEl.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('is-visible'), 1400);
+  };
+
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(_) {}
+    document.body.removeChild(ta);
+    done();
+  }
+});
+
+/* ------------------------------------------------------------------
+   Search / filter
+   ------------------------------------------------------------------ */
+function applyFilter(raw){
+  const q = raw.trim().toLowerCase();
+  let visibleTotal = 0;
+
+  SECTIONS.forEach(sec => {
+    const sectionEl = document.getElementById(sec.id);
+    const navLink   = navEl.querySelector('[data-target="' + sec.id + '"]');
+    const countEl   = sectionEl.querySelector('.section__count');
+    const navCount  = navLink.querySelector('.count');
+
+    const titleMatch = !q || sec.title.toLowerCase().includes(q) || sec.id.includes(q);
+    let visible = 0;
+
+    sectionEl.querySelectorAll('.pill').forEach(pill => {
+      const match = !q || titleMatch || pill.dataset.name.toLowerCase().includes(q);
+      pill.style.display = match ? '' : 'none';
+      if(match) visible++;
+    });
+
+    sectionEl.style.display = visible ? '' : 'none';
+    navLink.style.display   = visible ? '' : 'none';
+    countEl.textContent     = visible;
+    navCount.textContent    = visible;
+
+    visibleTotal += visible;
+  });
+
+  totalEl.textContent = visibleTotal;
+  noTerm.textContent = '"' + raw.trim() + '"';
+  noResults.style.display = visibleTotal ? 'none' : 'block';
+}
+
+searchEl.addEventListener('input', e => applyFilter(e.target.value));
+
+/* ------------------------------------------------------------------
+   Scroll spy
+   ------------------------------------------------------------------ */
+const navLinks = [...navEl.querySelectorAll('a')];
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      navLinks.forEach(l => l.classList.toggle('is-active', l.dataset.target === entry.target.id));
+    }
+  });
+}, { rootMargin: '-85px 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
