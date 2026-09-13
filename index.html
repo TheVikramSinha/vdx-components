@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><title>Component library — UI showcase · VeriDex</title><link rel="stylesheet" href="vdx-global.css"><style>
+/* Showcase presentation only. Component styling remains in vdx-global.css. */
+:root {
+  color-scheme: light;
+  --vdx-color-nav-bg: var(--vdx-color-bg-surface);
+  --vdx-color-nav-text: var(--vdx-color-text-secondary);
+  --vdx-color-nav-text-active: var(--vdx-color-text-primary);
+  --vdx-color-nav-item-active-bg: var(--vdx-color-action-primary-subtle);
+  --vdx-color-nav-item-hover-bg: var(--vdx-color-bg-subtle);
+  --vdx-color-nav-border: var(--vdx-color-border-subtle);
+  --vdx-color-nav-group-label: var(--vdx-color-text-secondary);
+}
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--vdx-space-24, 96px); }
+body { overflow-wrap: anywhere; }
+#library-shell { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+#library-sidebar { top: 0; height: 100dvh; padding-top: var(--vdx-space-5); scrollbar-color: var(--vdx-color-border-subtle) transparent; }
+#library-brand { padding: 0 var(--vdx-space-5) var(--vdx-space-5); }
+#library-brand .vdx-logo { gap: var(--vdx-space-2); }
+#library-nav { padding-top: 0; }
+#library-nav .vdx-nav__item { gap: var(--vdx-space-2); min-height: 36px; font-size: var(--vdx-type-body-xs-size); }
+#library-nav .vdx-nav__icon { color: var(--vdx-color-text-secondary); font-size: var(--vdx-type-body-xs-size); }
+#library-nav .vdx-nav__badge { background: var(--vdx-color-bg-subtle); color: var(--vdx-color-text-secondary); font-weight: 500; }
+#library-nav .vdx-nav__item--active { box-shadow: inset 3px 0 var(--vdx-color-action-primary); }
+#library-main { min-width: 0; }
+#library-topbar { position: sticky; top: 0; z-index: var(--vdx-z-sticky); height: auto; min-height: var(--vdx-topbar-height); padding: var(--vdx-space-3) var(--vdx-space-8); gap: var(--vdx-space-4); flex-wrap: wrap; }
+#library-topbar .vdx-search-wrapper { flex: 1; min-width: 160px; max-width: 440px; }
+#library-topbar .vdx-input { width: 100%; }
+#library-topbar .vdx-search-icon { pointer-events: none; }
+#library-content { padding: var(--vdx-space-8); max-width: 1560px; margin: auto; }
+#library-intro { margin-bottom: var(--vdx-space-8); }
+#library-intro h1 { margin: var(--vdx-space-3) 0; }
+#library-intro p { max-width: 740px; }
+#library-summary { margin-left: auto; white-space: nowrap; }
+.showcase-section { background: var(--vdx-color-bg-surface); border: 1px solid var(--vdx-color-border-subtle); border-radius: var(--vdx-radius-xl); margin-bottom: var(--vdx-space-6); padding: var(--vdx-space-6); scroll-margin-top: var(--vdx-space-24, 96px); min-width: 0; }
+.showcase-section-header { margin-bottom: var(--vdx-space-5); }
+.showcase-section-header h2 { font-size: var(--vdx-type-h5-size); display: flex; align-items: center; gap: var(--vdx-space-3); }
+.showcase-section-header p { margin-top: var(--vdx-space-1); }
+.showcase-demo { min-width: 0; padding: var(--vdx-space-5); border: 1px solid var(--vdx-color-border-subtle); border-radius: var(--vdx-radius-lg); }
+.demo-flex { display:flex; gap:var(--vdx-space-4); flex-wrap:wrap; align-items:center; margin-bottom:var(--vdx-space-4); }
+.icon-placeholder { width:var(--vdx-icon-md); height:var(--vdx-icon-md); display:inline-block; border:1.5px solid currentColor; border-radius:var(--vdx-radius-sm); }
+.icon-placeholder-lg { width:var(--vdx-icon-lg); height:var(--vdx-icon-lg); }
+[data-class-list] { display:flex; flex-wrap:wrap; gap:var(--vdx-space-2); margin-top:var(--vdx-space-3); }
+[data-class-list] button { font-family:var(--vdx-font-family-mono); font-size:var(--vdx-type-body-xs-size); padding:var(--vdx-space-1) var(--vdx-space-2); border:1px solid var(--vdx-color-border-subtle); border-radius:var(--vdx-radius-sm); background:var(--vdx-color-bg-subtle); color:var(--vdx-color-text-secondary); cursor:pointer; max-width:100%; text-align:left; }
+[data-class-list] button[data-kind="element"] { background:var(--vdx-color-status-info-bg); color:var(--vdx-color-text-info); }
+[data-class-list] button[data-kind="modifier"] { background:var(--vdx-color-action-primary-subtle); color:var(--vdx-color-text-primary); }
+[data-class-list] button:hover { box-shadow:var(--vdx-shadow-sm); border-color:var(--vdx-color-border-focus); }
+[data-reference] { margin-top:var(--vdx-space-5); padding-top:var(--vdx-space-4); border-top:1px solid var(--vdx-color-border-subtle); }
+[data-reference] summary { cursor:pointer; color:var(--vdx-color-text-secondary); font-size:var(--vdx-type-body-xs-size); }
+[data-reference] summary::marker { color:var(--vdx-color-action-primary); }
+.vdx-grid > *, .vdx-form-grid > * { min-width:0; }
+#library-content .vdx-table-wrapper { max-width:100%; overflow-x:auto; }
+#library-content .vdx-table-toolbar, #library-content .vdx-paginator { flex-wrap:wrap; gap:var(--vdx-space-3); }
+#library-content .vdx-table-toolbar__left { flex-wrap:wrap; }
+#library-content .vdx-stepper { overflow-x:auto; }
+#library-content .vdx-stepper--vertical { overflow:visible; }
+#library-content .vdx-tooltip { pointer-events:auto; }
+#sec-tooltip .showcase-demo { padding-top:var(--vdx-space-12); padding-bottom:var(--vdx-space-8); }
+#library-status { max-width:min(440px, calc(100vw - 32px)); }
+#library-sidebar.vdx-sidebar--collapsed #library-brand { display:none; }
+#library-sidebar.vdx-sidebar--collapsed .vdx-nav__item { padding-inline:var(--vdx-space-2); }
+#sec-calendar th, #sec-calendar td { padding:var(--vdx-space-1); }
+#sec-calendar .vdx-btn-icon { width:28px; height:32px; min-width:0; }
+#sec-calendar .showcase-demo { max-width:100%; }
+@media (min-width:768px) and (max-width:1023px) {
+ #library-sidebar:not(.vdx-sidebar--collapsed) { width:var(--vdx-sidebar-width-expanded); }
+ #library-sidebar:not(.vdx-sidebar--collapsed) .vdx-nav__label { display:block; }
+}
+@media (max-width:767px) {
+ #library-shell { grid-template-columns:minmax(0,1fr); }
+ #library-sidebar { position:fixed; top:0; height:100dvh; }
+ #library-sidebar.vdx-sidebar--open { left:0; width:280px; }
+ #library-content { padding:var(--vdx-space-4); }
+ #library-topbar { padding:var(--vdx-space-3) var(--vdx-space-4); gap:var(--vdx-space-2); }
+ #library-summary { display:none; }
+ .showcase-section { padding:var(--vdx-space-4); }
+ .showcase-demo { padding:var(--vdx-space-3); }
+ #library-content .vdx-grid, #library-content .vdx-form-grid { grid-template-columns:minmax(0,1fr); }
+ #library-content .vdx-dl { grid-template-columns:minmax(0,1fr); }
+ #library-content .vdx-display-2xl { font-size:var(--vdx-type-h1-size); }
+ #sec-calendar .showcase-demo { max-width:100% !important; padding:0; }
+ #sec-calendar th, #sec-calendar td { padding:var(--vdx-space-1); }
+ #sec-calendar .vdx-btn-icon { width:28px; height:32px; min-width:0; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
+</style></head><body>
+<a class="vdx-skip-link" href="#library-content">Skip to components</a>
+<div class="vdx-app-shell" id="library-shell">
+<aside class="vdx-sidebar" id="library-sidebar" aria-label="Component navigation">
+<div id="library-brand"><a class="vdx-logo" href="#library-intro"><span class="vdx-logo__text">Veri<span class="vdx-logo__text-accent">Dex</span></span></a><p class="vdx-body-xs vdx-text-secondary">Component library · v2.0</p></div>
+<nav class="vdx-nav" id="library-nav" aria-label="Showcase sections"></nav>
+<button class="vdx-sidebar__toggle" id="sidebar-toggle" aria-label="Collapse navigation" aria-expanded="true" aria-controls="library-sidebar">⇤ <span class="vdx-nav__label">Collapse navigation</span></button>
+</aside>
+<button class="vdx-sidebar-overlay" id="nav-backdrop" aria-label="Close navigation" tabindex="-1"></button>
+<main id="library-main">
+<header class="vdx-topbar" id="library-topbar">
+<button class="vdx-btn-icon" id="menu-toggle" aria-label="Toggle navigation" aria-controls="library-sidebar" aria-expanded="false">☰</button>
+<div class="vdx-search-wrapper"><span class="vdx-search-icon" aria-hidden="true">⌕</span><input type="search" id="library-search" class="vdx-input vdx-input--sm" placeholder="Search components or CSS classes…" aria-label="Search components and CSS classes" autocomplete="off"></div>
+<span class="vdx-body-xs vdx-text-secondary" id="library-summary" aria-live="polite"></span>
+</header>
+<div id="library-content" tabindex="-1">
+<div id="library-intro"><span class="vdx-badge vdx-badge--primary">Design system / Light theme</span><h1 class="vdx-h1">One language. Every component.</h1><p class="vdx-body-md vdx-text-secondary">Explore the VeriDex interface, from everyday controls to insurance workflows. Try the examples and copy their CSS classes into your implementation.</p><div class="demo-flex vdx-mt-4"><a class="vdx-btn vdx-btn--outline vdx-btn--sm" href="ui-framework.md">Framework specification ↗</a><a class="vdx-btn vdx-btn--ghost vdx-btn--sm" href="vdx-global.css">Global stylesheet ↗</a><span class="vdx-body-xs vdx-text-secondary">Local demo · sample data only</span></div><div class="demo-flex vdx-body-xs"><span class="vdx-badge">Base class</span><span class="vdx-badge vdx-badge--info">Element __</span><span class="vdx-badge vdx-badge--primary">Modifier --</span><span class="vdx-text-secondary">Select a class label to copy it.</span></div></div>
+<section id="sec-shell" class="showcase-section"><div class="showcase-section-header"><h2 class="vdx-h2">App shell &amp; navigation</h2><p class="vdx-body-sm vdx-text-secondary">Light surfaces, collapsible navigation, and a responsive content area.</p></div><div class="showcase-demo"><div class="vdx-page-header"><div class="vdx-page-header__content"><h3 class="vdx-page-header__title">Agent workspace</h3><p class="vdx-page-header__subtitle">Welcome back, Priya Sharma.</p></div><div class="vdx-page-header__actions"><span class="vdx-avatar vdx-avatar--sm" aria-label="Priya Sharma">PS</span></div></div><nav class="vdx-breadcrumb" aria-label="App shell example breadcrumb"><ol class="vdx-breadcrumb__list"><li class="vdx-breadcrumb__item"><a class="vdx-breadcrumb__link" href="#sec-dashboard">Dashboard</a></li><li class="vdx-breadcrumb__item"><span class="vdx-breadcrumb__current">Component library</span></li></ol></nav><p class="vdx-body-sm vdx-text-secondary vdx-mt-4">Use the navigation toggle to collapse the rail. On mobile, the menu opens above the content.</p></div></section>
+<section id="sec-dashboard" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Dashboard</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-kpi-card, .vdx-grid</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-grid vdx-grid--4 vdx-mb-6">
+              <div class="vdx-kpi-card">
+                <div class="vdx-kpi-card__label">Total Premium</div>
+                <div class="vdx-kpi-card__value">$4.2M</div>
+                <div class="vdx-kpi-card__trend vdx-kpi-card__trend--up">↑ +12.4% <span class="vdx-kpi-card__period">vs last month</span></div>
+              </div>
+              <div class="vdx-kpi-card">
+                <div class="vdx-kpi-card__label">Active Policies</div>
+                <div class="vdx-kpi-card__value">1,247</div>
+                <div class="vdx-kpi-card__trend vdx-kpi-card__trend--up">↑ +3.2% <span class="vdx-kpi-card__period">vs last month</span></div>
+              </div>
+              <div class="vdx-kpi-card">
+                <div class="vdx-kpi-card__label">Claims Ratio</div>
+                <div class="vdx-kpi-card__value">58.3%</div>
+                <div class="vdx-kpi-card__trend vdx-kpi-card__trend--down">↓ -2.1% <span class="vdx-kpi-card__period">vs last month</span></div>
+              </div>
+              <div class="vdx-kpi-card">
+                <div class="vdx-kpi-card__label">Avg Policy Value</div>
+                <div class="vdx-kpi-card__value">$3,370</div>
+                <div class="vdx-kpi-card__trend vdx-kpi-card__trend--up">↑ +8.7% <span class="vdx-kpi-card__period">vs last month</span></div>
+              </div>
+            </div>
+            <div class="vdx-grid vdx-grid--2">
+              <div class="vdx-chart-wrapper">
+                <div class="vdx-chart-wrapper__header">
+                  <div>
+                    <div class="vdx-chart-wrapper__title">Premium Trend</div>
+                    <div class="vdx-chart-wrapper__subtitle">Last 12 months</div>
+                  </div>
+                </div>
+                <div class="vdx-chart-empty">No chart data available (mockup)</div>
+              </div>
+              <div class="vdx-chart-wrapper">
+                <div class="vdx-chart-wrapper__header">
+                  <div>
+                    <div class="vdx-chart-wrapper__title">Loss Ratio</div>
+                    <div class="vdx-chart-wrapper__subtitle">By territory</div>
+                  </div>
+                </div>
+                <div class="vdx-chart-empty">No chart data available (mockup)</div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-buttons" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Buttons</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-btn, variants, sizes, states</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-h6 vdx-mb-2">Variants (md)</div>
+            <div class="demo-flex">
+              <button class="vdx-btn vdx-btn--primary">Primary</button>
+              <button class="vdx-btn vdx-btn--secondary">Secondary</button>
+              <button class="vdx-btn vdx-btn--outline">Outline</button>
+              <button class="vdx-btn vdx-btn--ghost">Ghost</button>
+              <button class="vdx-btn vdx-btn--destructive">Destructive</button>
+            </div>
+            
+            <div class="vdx-h6 vdx-mb-2 vdx-mt-4">Sizes (Primary)</div>
+            <div class="demo-flex">
+              <button class="vdx-btn vdx-btn--primary vdx-btn--sm">Small Button</button>
+              <button class="vdx-btn vdx-btn--primary">Medium Button (Default)</button>
+              <button class="vdx-btn vdx-btn--primary vdx-btn--lg">Large Button</button>
+            </div>
+
+            <div class="vdx-h6 vdx-mb-2 vdx-mt-4">States</div>
+            <div class="demo-flex">
+              <button class="vdx-btn vdx-btn--primary" disabled>Disabled Primary</button>
+              <button class="vdx-btn vdx-btn--outline" disabled>Disabled Outline</button>
+              <button class="vdx-btn vdx-btn--primary vdx-btn--loading" aria-busy="true">Loading...</button>
+            </div>
+            
+            <div class="vdx-h6 vdx-mb-2 vdx-mt-4">Groups & Icons</div>
+            <div class="demo-flex">
+              <div class="vdx-btn-group">
+                <button class="vdx-btn vdx-btn--outline">Left</button>
+                <button class="vdx-btn vdx-btn--outline">Middle</button>
+                <button class="vdx-btn vdx-btn--outline">Right</button>
+              </div>
+              <button class="vdx-btn-icon" aria-label="Settings"><span class="icon-placeholder"></span></button>
+              <button class="vdx-btn vdx-btn--outline"><span class="icon-placeholder"></span> With Icon</button>
+            </div>
+          </div>
+        </section>
+<section id="sec-badges" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Badges & Chips</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-badge, .vdx-chip</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-h6 vdx-mb-2">Badges</div>
+            <div class="demo-flex">
+              <span class="vdx-badge">Neutral</span>
+              <span class="vdx-badge vdx-badge--success">Success</span>
+              <span class="vdx-badge vdx-badge--warning">Warning</span>
+              <span class="vdx-badge vdx-badge--error">Error</span>
+              <span class="vdx-badge vdx-badge--info">Info</span>
+              <span class="vdx-badge vdx-badge--primary">Primary</span>
+              <span class="vdx-badge vdx-badge--navy">Navy</span>
+              <span class="vdx-badge vdx-badge--count">42</span>
+              <span class="vdx-badge vdx-badge--dot vdx-badge--success"></span>
+            </div>
+            
+            <div class="vdx-h6 vdx-mb-2 vdx-mt-4">Status Chips (Insurance)</div>
+            <div class="demo-flex">
+              <span class="vdx-status-chip vdx-status-chip--draft"><span class="vdx-status-chip__dot"></span>Draft</span>
+              <span class="vdx-status-chip vdx-status-chip--quoted"><span class="vdx-status-chip__dot"></span>Quoted</span>
+              <span class="vdx-status-chip vdx-status-chip--bound"><span class="vdx-status-chip__dot"></span>Bound</span>
+              <span class="vdx-status-chip vdx-status-chip--active"><span class="vdx-status-chip__dot"></span>Active</span>
+              <span class="vdx-status-chip vdx-status-chip--renewal"><span class="vdx-status-chip__dot"></span>Renewal</span>
+              <span class="vdx-status-chip vdx-status-chip--cancelled"><span class="vdx-status-chip__dot"></span>Cancelled</span>
+            </div>
+            
+            <div class="vdx-h6 vdx-mb-2 vdx-mt-4">Chips/Tags</div>
+            <div class="demo-flex">
+              <div class="vdx-chip">Basic Chip</div>
+              <div class="vdx-chip vdx-chip--selectable">Selectable Chip</div>
+              <div class="vdx-chip vdx-chip--selected">Selected Chip</div>
+              <div class="vdx-chip">Removable <button class="vdx-chip__remove">✕</button></div>
+            </div>
+          </div>
+        </section>
+<section id="sec-avatar" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Avatar</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-avatar, .vdx-avatar-status</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="demo-flex">
+              <div class="vdx-avatar vdx-avatar--xs">XS</div>
+              <div class="vdx-avatar vdx-avatar--sm">SM</div>
+              <div class="vdx-avatar vdx-avatar--md">MD</div>
+              <div class="vdx-avatar vdx-avatar--lg">LG</div>
+              <div class="vdx-avatar vdx-avatar--xl">XL</div>
+            </div>
+            <div class="demo-flex vdx-mt-4">
+              <div class="vdx-avatar-wrapper">
+                <div class="vdx-avatar vdx-avatar--md">PS</div>
+                <div class="vdx-avatar-status vdx-avatar-status--online"></div>
+              </div>
+              <div class="vdx-avatar-wrapper">
+                <div class="vdx-avatar vdx-avatar--md">MI</div>
+                <div class="vdx-avatar-status vdx-avatar-status--away"></div>
+              </div>
+              <div class="vdx-avatar-wrapper">
+                <div class="vdx-avatar vdx-avatar--md">AS</div>
+                <div class="vdx-avatar-status vdx-avatar-status--offline"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-cards" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Cards</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-card, .vdx-card--compact/comfortable</p>
+          </div>
+          <div class="showcase-demo" style="background: var(--vdx-color-bg-canvas);">
+            <div class="vdx-grid vdx-grid--3">
+              <div class="vdx-card">
+                <div class="vdx-card__header">
+                  <h3 class="vdx-card__title">Default Card</h3>
+                </div>
+                <div class="vdx-card__body">Standard padding and border.</div>
+                <div class="vdx-card__footer"><button class="vdx-btn vdx-btn--outline vdx-btn--sm">Action</button></div>
+              </div>
+              <div class="vdx-card vdx-card--raised">
+                <div class="vdx-card__header">
+                  <h3 class="vdx-card__title">Raised Card</h3>
+                </div>
+                <div class="vdx-card__body">Has shadow-md to stand out.</div>
+              </div>
+              <a href="#" class="vdx-card vdx-card--clickable">
+                <div class="vdx-card__header">
+                  <h3 class="vdx-card__title">Clickable Card</h3>
+                </div>
+                <div class="vdx-card__body">Hover me to see the effect.</div>
+              </a>
+              <div class="vdx-card vdx-card--selected">
+                <div class="vdx-card__header">
+                  <h3 class="vdx-card__title">Selected Card</h3>
+                </div>
+                <div class="vdx-card__body">Orange border and subtle background tint.</div>
+              </div>
+              <div class="vdx-card vdx-card--compact">
+                <div class="vdx-card__body">Compact card with smaller padding.</div>
+              </div>
+              <div class="vdx-card vdx-card--flat">
+                <div class="vdx-card__body">Flat card with no box-shadow.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-typography" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Typography</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Headings, Body, Labels</p>
+          </div>
+          <div class="showcase-demo vdx-stack vdx-stack--4">
+            <div class="vdx-display-2xl">Display 2XL (40px)</div>
+            <div class="vdx-display-xl">Display XL (32px)</div>
+            <h1 class="vdx-h1">Heading 1 (28px)</h1>
+            <h2 class="vdx-h2">Heading 2 (24px)</h2>
+            <h3 class="vdx-h3">Heading 3 (20px)</h3>
+            <h4 class="vdx-h4">Heading 4 (18px)</h4>
+            <h5 class="vdx-h5">Heading 5 (16px)</h5>
+            <h6 class="vdx-h6">Heading 6 (14px)</h6>
+            <p class="vdx-body-lg">Body Large: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="vdx-body-md">Body Medium (Default): Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="vdx-body-sm">Body Small: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="vdx-body-xs">Body XSmall: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="vdx-label-lg">Label Large</div>
+            <div class="vdx-label-md">Label Medium</div>
+            <div class="vdx-label-sm">Label Small</div>
+            <div class="vdx-caption">Caption Text</div>
+            <div class="vdx-mono-md">Mono Medium: POL-2024-001</div>
+            <div class="vdx-mono-sm">Mono Small: 12ab34cd</div>
+          </div>
+        </section>
+<section id="sec-tabs" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Tabs</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-tabs</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-tabs">
+              <div class="vdx-tabs__list" role="tablist">
+                <button class="vdx-tabs__tab vdx-tabs__tab--active" role="tab" aria-selected="true" aria-controls="tab-1">Overview</button>
+                <button class="vdx-tabs__tab" role="tab" aria-selected="false" aria-controls="tab-2">Details</button>
+                <button class="vdx-tabs__tab" role="tab" aria-selected="false" aria-controls="tab-3" disabled>Settings (Disabled)</button>
+              </div>
+              <div id="tab-1" class="vdx-tabs__panel" role="tabpanel">
+                <p>This is the Overview tab panel content.</p>
+              </div>
+              <div id="tab-2" class="vdx-tabs__panel" role="tabpanel" hidden>
+                <p>This is the Details tab panel content. It was hidden initially.</p>
+              </div>
+              <div id="tab-3" class="vdx-tabs__panel" role="tabpanel" hidden>
+                <p>Settings content.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-accordion" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Accordion</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-accordion</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-accordion">
+              <div class="vdx-accordion__item">
+                <button class="vdx-accordion__trigger" aria-expanded="false">
+                  Policy Details <span class="vdx-accordion__icon">▼</span>
+                </button>
+                <div class="vdx-accordion__content" style="display: none;">
+                  <p>Detailed information about the policy goes here.</p>
+                </div>
+              </div>
+              <div class="vdx-accordion__item">
+                <button class="vdx-accordion__trigger" aria-expanded="true">
+                  Coverage Limits <span class="vdx-accordion__icon">▼</span>
+                </button>
+                <div class="vdx-accordion__content" style="display: block;">
+                  <p>General Liability: $1,000,000</p>
+                  <p>Professional Liability: $2,000,000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-stepper" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Stepper</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-stepper</p>
+          </div>
+          <div class="showcase-demo vdx-stack vdx-stack--8">
+            <div class="vdx-stepper">
+              <div class="vdx-stepper__step vdx-stepper__step--completed">
+                <div class="vdx-stepper__indicator">✓</div>
+                <div class="vdx-stepper__label">Applicant</div>
+              </div>
+              <div class="vdx-stepper__step vdx-stepper__step--active">
+                <div class="vdx-stepper__indicator">2</div>
+                <div class="vdx-stepper__label">Coverage</div>
+              </div>
+              <div class="vdx-stepper__step">
+                <div class="vdx-stepper__indicator">3</div>
+                <div class="vdx-stepper__label">Risk</div>
+              </div>
+              <div class="vdx-stepper__step">
+                <div class="vdx-stepper__indicator">4</div>
+                <div class="vdx-stepper__label">Bind</div>
+              </div>
+            </div>
+            
+            <div class="vdx-stepper vdx-stepper--vertical" style="max-width: 300px;">
+              <div class="vdx-stepper__step vdx-stepper__step--completed">
+                <div class="vdx-stepper__indicator">✓</div>
+                <div class="vdx-stepper__label">Applicant Details Completed</div>
+              </div>
+              <div class="vdx-stepper__step vdx-stepper__step--error">
+                <div class="vdx-stepper__indicator">!</div>
+                <div class="vdx-stepper__label">Coverage Review Failed</div>
+              </div>
+              <div class="vdx-stepper__step">
+                <div class="vdx-stepper__indicator">3</div>
+                <div class="vdx-stepper__label">Pending Bind</div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-forms" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Forms</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Inputs, selects, textareas, toggles</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-validation-summary" role="alert">
+              <div class="vdx-validation-summary__title">Please fix the following errors:</div>
+              <ul class="vdx-validation-summary__list">
+                <li class="vdx-validation-summary__item"><a href="#policyName">Policy name is required</a></li>
+              </ul>
+            </div>
+
+            <div class="vdx-form-grid vdx-mb-6">
+              <div class="vdx-form-field">
+                <label class="vdx-label">Policy Name <span class="vdx-label__required">*</span></label>
+                <input type="text" class="vdx-input" placeholder="e.g. POL-2024-001" id="policyName" aria-invalid="true">
+                <span class="vdx-error-text">Policy name is required</span>
+              </div>
+              <div class="vdx-form-field">
+                <label class="vdx-label">Carrier</label>
+                <select class="vdx-select">
+                  <option>Select carrier...</option>
+                  <option>Carrier A</option>
+                  <option>Carrier B</option>
+                </select>
+                <span class="vdx-hint">Select the underwriting carrier.</span>
+              </div>
+              <div class="vdx-form-field">
+                <label class="vdx-label">Premium Amount</label>
+                <div class="vdx-input-wrapper">
+                  <span class="vdx-input-prefix">$</span>
+                  <input type="text" class="vdx-input" value="12,450.00">
+                </div>
+              </div>
+              <div class="vdx-form-field">
+                <label class="vdx-label">Disabled Input</label>
+                <input type="text" class="vdx-input" disabled value="Cannot edit this">
+              </div>
+            </div>
+            
+            <div class="vdx-form-field vdx-mb-6">
+              <label class="vdx-label">Description</label>
+              <textarea class="vdx-textarea" placeholder="Enter details..."></textarea>
+            </div>
+
+            <div class="vdx-grid vdx-grid--3 vdx-mb-6">
+              <div class="vdx-stack vdx-stack--3">
+                <div class="vdx-label">Checkboxes</div>
+                <label class="vdx-checkbox-wrapper">
+                  <input type="checkbox" class="vdx-checkbox" checked> Option A
+                </label>
+                <label class="vdx-checkbox-wrapper">
+                  <input type="checkbox" class="vdx-checkbox"> Option B
+                </label>
+                <label class="vdx-checkbox-wrapper vdx-checkbox-wrapper--disabled">
+                  <input type="checkbox" class="vdx-checkbox" disabled> Disabled Option
+                </label>
+              </div>
+              
+              <div class="vdx-stack vdx-stack--3">
+                <div class="vdx-label">Radio Buttons</div>
+                <label class="vdx-radio-wrapper">
+                  <input type="radio" name="rad" class="vdx-radio" checked> Choice X
+                </label>
+                <label class="vdx-radio-wrapper">
+                  <input type="radio" name="rad" class="vdx-radio"> Choice Y
+                </label>
+              </div>
+
+              <div class="vdx-stack vdx-stack--3">
+                <div class="vdx-label">Toggle Switch</div>
+                <label class="vdx-toggle-wrapper">
+                  <input type="checkbox" class="vdx-toggle" checked> Auto-renew
+                </label>
+                <label class="vdx-toggle-wrapper">
+                  <input type="checkbox" class="vdx-toggle"> Email Notifications
+                </label>
+              </div>
+            </div>
+
+            <div class="vdx-form-field vdx-mb-6">
+              <label class="vdx-label">Upload Document</label>
+              <div class="vdx-dropzone">
+                <span class="vdx-dropzone__icon">📁</span>
+                <div class="vdx-dropzone__title">Drag and drop file here</div>
+                <div class="vdx-dropzone__hint">or click to browse files (PDF, DOCX)</div>
+              </div>
+            </div>
+
+            <div class="vdx-form-actions">
+              <button class="vdx-btn vdx-btn--outline">Cancel</button>
+              <button class="vdx-btn vdx-btn--primary">Save Changes</button>
+            </div>
+          </div>
+        </section>
+<section id="sec-table" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Table / Data Grid</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-table, .vdx-paginator</p>
+          </div>
+          <div class="showcase-demo" style="padding: 0; border: none; background: transparent;">
+            <div class="vdx-table-wrapper">
+              <div class="vdx-table-toolbar">
+                <div class="vdx-table-toolbar__left">
+                  <div class="vdx-search-wrapper">
+                    <span class="vdx-search-icon">🔍</span>
+                    <input type="text" class="vdx-input vdx-input--sm" placeholder="Search policies...">
+                  </div>
+                  <button class="vdx-btn vdx-btn--outline vdx-btn--sm">Filter</button>
+                </div>
+                <div class="vdx-table-toolbar__right">
+                  <button class="vdx-btn vdx-btn--primary vdx-btn--sm">New Policy</button>
+                </div>
+              </div>
+              <table class="vdx-table">
+                <thead>
+                  <tr>
+                    <th class="vdx-table__col-check"><input type="checkbox" class="vdx-checkbox"></th>
+                    <th class="vdx-table__th--sortable" aria-sort="ascending">Policy No. <span class="vdx-table__sort-icon">↑</span></th>
+                    <th>Status</th>
+                    <th class="vdx-table__th--sortable">Type <span class="vdx-table__sort-icon">↕</span></th>
+                    <th class="vdx-table__cell--numeric">Premium</th>
+                    <th class="vdx-table__cell--actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="vdx-table__row--selected">
+                    <td class="vdx-table__col-check"><input type="checkbox" class="vdx-checkbox" checked></td>
+                    <td class="vdx-table__cell--mono">POL-2024-001</td>
+                    <td><span class="vdx-status-chip vdx-status-chip--active"><span class="vdx-status-chip__dot"></span>Active</span></td>
+                    <td>Commercial Gen Liab</td>
+                    <td class="vdx-table__cell--numeric">$12,450.00</td>
+                    <td class="vdx-table__cell--actions"><button class="vdx-btn-icon vdx-btn-icon--sm">⋮</button></td>
+                  </tr>
+                  <tr>
+                    <td class="vdx-table__col-check"><input type="checkbox" class="vdx-checkbox"></td>
+                    <td class="vdx-table__cell--mono">POL-2024-002</td>
+                    <td><span class="vdx-status-chip vdx-status-chip--renewal"><span class="vdx-status-chip__dot"></span>Renewal</span></td>
+                    <td>Prof Indemnity</td>
+                    <td class="vdx-table__cell--numeric">$8,900.00</td>
+                    <td class="vdx-table__cell--actions"><button class="vdx-btn-icon vdx-btn-icon--sm">⋮</button></td>
+                  </tr>
+                  <tr class="vdx-table__row--error">
+                    <td class="vdx-table__col-check"><input type="checkbox" class="vdx-checkbox"></td>
+                    <td class="vdx-table__cell--mono vdx-table__cell--error">POL-2024-004</td>
+                    <td><span class="vdx-status-chip vdx-status-chip--cancelled"><span class="vdx-status-chip__dot"></span>Cancelled</span></td>
+                    <td>Directors & Officers</td>
+                    <td class="vdx-table__cell--numeric">$3,100.00</td>
+                    <td class="vdx-table__cell--actions"><button class="vdx-btn-icon vdx-btn-icon--sm">⋮</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="vdx-paginator">
+                <div class="vdx-paginator__info">Showing 1–3 of 1247</div>
+                <div class="vdx-paginator__controls">
+                  <button class="vdx-paginator__btn" disabled>&lt;</button>
+                  <button class="vdx-paginator__btn" aria-current="page">1</button>
+                  <button class="vdx-paginator__btn">2</button>
+                  <button class="vdx-paginator__btn">3</button>
+                  <button class="vdx-paginator__btn">&gt;</button>
+                </div>
+                <div class="vdx-paginator__page-size">
+                  Rows:
+                  <select class="vdx-select"><option>25</option><option>50</option></select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-alerts" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Alerts & Banners</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-alert, .vdx-alert-banner</p>
+          </div>
+          <div class="showcase-demo vdx-stack vdx-stack--4">
+            <div class="vdx-alert vdx-alert--success">
+              <span class="vdx-alert__icon">✓</span>
+              <div class="vdx-alert__content">
+                <div class="vdx-alert__title">Success</div>
+                <div>Your changes have been saved successfully.</div>
+              </div>
+              <button class="vdx-alert__dismiss">✕</button>
+            </div>
+            <div class="vdx-alert vdx-alert--warning">
+              <span class="vdx-alert__icon">!</span>
+              <div class="vdx-alert__content">
+                <div class="vdx-alert__title">Warning</div>
+                <div>Your session is about to expire in 5 minutes.</div>
+              </div>
+              <button class="vdx-alert__dismiss">✕</button>
+            </div>
+            <div class="vdx-alert vdx-alert--error">
+              <span class="vdx-alert__icon">✕</span>
+              <div class="vdx-alert__content">
+                <div class="vdx-alert__title">Error</div>
+                <div>Failed to connect to the underwriting server.</div>
+              </div>
+            </div>
+            <div class="vdx-alert vdx-alert--info">
+              <span class="vdx-alert__icon">i</span>
+              <div class="vdx-alert__content">
+                <div class="vdx-alert__title">Info</div>
+                <div>A new version of the platform is available.</div>
+              </div>
+            </div>
+            
+            <div class="vdx-h6 vdx-mt-4 vdx-mb-2">Alert Banners</div>
+            <div class="vdx-alert-banner vdx-alert-banner--warning">
+              <span>!</span>
+              <span>System maintenance scheduled for tonight at 2:00 AM UTC.</span>
+              <button class="vdx-alert-banner__dismiss">✕</button>
+            </div>
+          </div>
+        </section>
+<section id="sec-toast" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Toasts</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Look at the bottom right corner.</p>
+          </div>
+          <div class="showcase-demo">
+            <p>Toasts render fixed at the bottom right. Static demo is visible there.</p>
+          </div>
+        </section>
+<section id="sec-modal" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Modal / Dialog</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-modal</p>
+          </div>
+          <div class="showcase-demo">
+            <button class="vdx-btn vdx-btn--primary" onclick="openModal('demo-modal')">Open Demo Modal</button>
+            
+            <!-- Modal Markup -->
+            <div id="demo-modal" class="vdx-modal-backdrop" style="display: none;">
+              <div class="vdx-modal vdx-modal--md" role="dialog" aria-modal="true">
+                <div class="vdx-modal__header">
+                  <h2 class="vdx-modal__title">Cancel Policy</h2>
+                  <button class="vdx-btn-icon" aria-label="Close" onclick="closeModal('demo-modal')">✕</button>
+                </div>
+                <div class="vdx-modal__body">
+                  <p>Are you sure you want to cancel POL-2024-001? This action cannot be undone.</p>
+                  <div class="vdx-form-field vdx-mt-4">
+                    <label class="vdx-label">Reason for cancellation</label>
+                    <textarea class="vdx-textarea" placeholder="Enter reason..."></textarea>
+                  </div>
+                </div>
+                <div class="vdx-modal__footer">
+                  <button class="vdx-btn vdx-btn--outline" onclick="closeModal('demo-modal')">Keep Policy</button>
+                  <button class="vdx-btn vdx-btn--destructive" onclick="closeModal('demo-modal')">Cancel Policy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-drawer" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Drawer / Side Panel</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-drawer</p>
+          </div>
+          <div class="showcase-demo" style="position: relative; height: 400px; overflow: hidden; background: var(--vdx-color-bg-subtle);">
+            <p style="padding: 20px;">This demonstrates an inline drawer. Usually fixed to the viewport.</p>
+            <div class="vdx-drawer vdx-drawer--md" style="position: absolute; right: 0; box-shadow: var(--vdx-shadow-lg);">
+              <div class="vdx-drawer__header">
+                <h2 class="vdx-drawer__title">Document Details</h2>
+                <button class="vdx-btn-icon">✕</button>
+              </div>
+              <div class="vdx-drawer__body">
+                <div class="vdx-dl vdx-dl--full">
+                  <div>
+                    <dt class="vdx-dl__term">File Name</dt>
+                    <dd class="vdx-dl__value">policy-schedule.pdf</dd>
+                  </div>
+                  <div>
+                    <dt class="vdx-dl__term">Uploaded By</dt>
+                    <dd class="vdx-dl__value">Priya Sharma</dd>
+                  </div>
+                </div>
+              </div>
+              <div class="vdx-drawer__footer">
+                <button class="vdx-btn vdx-btn--outline">Download</button>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-tooltip" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Tooltip & Popover</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-tooltip, .vdx-popover</p>
+          </div>
+          <div class="showcase-demo demo-flex">
+            <div style="position: relative;">
+              <button class="vdx-btn vdx-btn--outline">Hover Me (Tooltip)</button>
+              <div class="vdx-tooltip" style="top: -40px; left: 0;">This is a helpful tooltip text.</div>
+            </div>
+            <div style="position: relative; ">
+              <button class="vdx-btn vdx-btn--outline">Click Me (Popover)</button>
+              <div class="vdx-popover" style="top: 50px; left: 0;">
+                <h4 class="vdx-h6 vdx-mb-2">Popover Title</h4>
+                <p class="vdx-body-sm vdx-text-secondary">Popover body content can contain forms or lists.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-empty" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Empty State</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-empty</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-empty">
+              <div class="vdx-empty__icon" style="font-size: 48px;">📄</div>
+              <div class="vdx-empty__title">No policies in this portfolio</div>
+              <div class="vdx-empty__body">You haven't bound any policies yet. Start by creating a new quote.</div>
+              <div class="vdx-empty__actions">
+                <button class="vdx-btn vdx-btn--primary">Create Quote</button>
+                <button class="vdx-btn vdx-btn--outline">Import CSV</button>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-loading" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Loading States</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Spinners, Skeletons, Progress</p>
+          </div>
+          <div class="showcase-demo vdx-stack vdx-stack--6">
+            <div>
+              <div class="vdx-h6 vdx-mb-4">Spinners</div>
+              <div class="demo-flex">
+                <div class="vdx-spinner vdx-spinner--xs"></div>
+                <div class="vdx-spinner vdx-spinner--sm"></div>
+                <div class="vdx-spinner vdx-spinner--md"></div>
+                <div class="vdx-spinner vdx-spinner--lg"></div>
+                <div class="vdx-spinner vdx-spinner--xl"></div>
+              </div>
+            </div>
+            <div>
+              <div class="vdx-h6 vdx-mb-4">Skeletons</div>
+              <div class="vdx-stack vdx-stack--2" style="max-width: 300px;">
+                <div class="vdx-skeleton vdx-skeleton--text" style="width: 60%"></div>
+                <div class="vdx-skeleton vdx-skeleton--text"></div>
+                <div class="vdx-skeleton vdx-skeleton--text"></div>
+                <div class="vdx-skeleton vdx-skeleton--card vdx-mt-4"></div>
+              </div>
+            </div>
+            <div>
+              <div class="vdx-h6 vdx-mb-4">Progress Bar</div>
+              <div class="vdx-progress vdx-mb-4"><div class="vdx-progress__bar" style="width: 65%;"></div></div>
+              <div class="vdx-progress vdx-progress--indeterminate"><div class="vdx-progress__bar"></div></div>
+            </div>
+          </div>
+        </section>
+<section id="sec-timeline" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Timeline / Activity Feed</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-timeline</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-timeline">
+              <div class="vdx-timeline__item">
+                <div class="vdx-timeline__dot vdx-timeline__dot--success">✓</div>
+                <div class="vdx-timeline__content">
+                  <div class="vdx-timeline__header">
+                    <span class="vdx-timeline__event">Policy Bound</span>
+                    <span class="vdx-timeline__time">Today, 10:45 AM</span>
+                  </div>
+                  <div class="vdx-timeline__actor">by Priya Sharma</div>
+                </div>
+              </div>
+              <div class="vdx-timeline__item">
+                <div class="vdx-timeline__dot vdx-timeline__dot--info">ℹ</div>
+                <div class="vdx-timeline__content">
+                  <div class="vdx-timeline__header">
+                    <span class="vdx-timeline__event">Underwriting Approved</span>
+                    <span class="vdx-timeline__time">Yesterday, 4:20 PM</span>
+                  </div>
+                  <div class="vdx-timeline__actor">by Raj Patel</div>
+                  <div class="vdx-timeline__body">Subjectivity cleared. Okay to bind.</div>
+                </div>
+              </div>
+              <div class="vdx-timeline__item">
+                <div class="vdx-timeline__dot">📄</div>
+                <div class="vdx-timeline__content">
+                  <div class="vdx-timeline__header">
+                    <span class="vdx-timeline__event">Quote Created</span>
+                    <span class="vdx-timeline__time">Oct 1, 9:00 AM</span>
+                  </div>
+                  <div class="vdx-timeline__actor">by Priya Sharma</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-breadcrumb" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Breadcrumb</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-breadcrumb</p>
+          </div>
+          <div class="showcase-demo">
+            <nav class="vdx-breadcrumb" aria-label="Breadcrumb">
+              <ol class="vdx-breadcrumb__list">
+                <li class="vdx-breadcrumb__item"><a href="#" class="vdx-breadcrumb__link">Policies</a></li>
+                <li class="vdx-breadcrumb__item"><a href="#" class="vdx-breadcrumb__link">Commercial</a></li>
+                <li class="vdx-breadcrumb__item"><span class="vdx-breadcrumb__current">Policy POL-2024-001</span></li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+<section id="sec-kanban" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Kanban Board</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Grid + Cards layout</p>
+          </div>
+          <div class="showcase-demo" style="background: var(--vdx-color-bg-canvas);">
+            <div class="vdx-grid vdx-grid--4">
+              <!-- To Do -->
+              <div class="vdx-stack vdx-stack--3">
+                <h4 class="vdx-h6">To Do (2)</h4>
+                <div class="vdx-card vdx-card--compact vdx-card--clickable">
+                  <div class="vdx-card__header"><div class="vdx-card__title">Review Renewal</div></div>
+                  <div class="vdx-card__body"><span class="vdx-badge vdx-badge--warning">High</span></div>
+                </div>
+                <div class="vdx-card vdx-card--compact vdx-card--clickable">
+                  <div class="vdx-card__header"><div class="vdx-card__title">Audit Q3</div></div>
+                </div>
+              </div>
+              <!-- In Progress -->
+              <div class="vdx-stack vdx-stack--3">
+                <h4 class="vdx-h6">In Progress (1)</h4>
+                <div class="vdx-card vdx-card--compact vdx-card--clickable">
+                  <div class="vdx-card__header"><div class="vdx-card__title">Quote POL-005</div></div>
+                  <div class="vdx-card__body"><div class="vdx-avatar vdx-avatar--xs">PS</div></div>
+                </div>
+              </div>
+              <!-- Review -->
+              <div class="vdx-stack vdx-stack--3">
+                <h4 class="vdx-h6">Review (0)</h4>
+                <div class="vdx-empty" style="min-height: 100px; padding: 20px;">
+                  <div class="vdx-empty__body">Drop here</div>
+                </div>
+              </div>
+              <!-- Done -->
+              <div class="vdx-stack vdx-stack--3">
+                <h4 class="vdx-h6">Done (1)</h4>
+                <div class="vdx-card vdx-card--compact vdx-card--clickable">
+                  <div class="vdx-card__header"><div class="vdx-card__title" style="text-decoration: line-through;">Bind POL-001</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-calendar" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Calendar (Mini)</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Table layout</p>
+          </div>
+          <div class="showcase-demo" style="max-width: 320px;">
+            <div class="vdx-flex vdx-justify-between vdx-items-center vdx-mb-4">
+              <button class="vdx-btn-icon">&lt;</button>
+              <span class="vdx-label-md">June 2025</span>
+              <button class="vdx-btn-icon">&gt;</button>
+            </div>
+            <table class="vdx-table vdx-table--compact" style="text-align: center;">
+              <thead>
+                <tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr>
+              </thead>
+              <tbody style="text-align: center;">
+                <tr><td class="vdx-table__cell--muted">26</td><td class="vdx-table__cell--muted">27</td><td class="vdx-table__cell--muted">28</td><td class="vdx-table__cell--muted">29</td><td class="vdx-table__cell--muted">30</td><td class="vdx-table__cell--muted">31</td><td>1</td></tr>
+                <tr><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+                <tr><td>9</td><td>10</td><td>11</td><td><div class="vdx-bg-subtle vdx-border vdx-rounded-sm">12</div></td><td>13</td><td>14</td><td>15</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+<section id="sec-invoice" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Invoice</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-premium-card</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-premium-card" style="max-width: 600px;">
+              <div class="vdx-premium-card__header">
+                <div class="vdx-premium-card__title">Invoice INV-9923</div>
+                <div class="vdx-premium-card__period">Due: Oct 15, 2026</div>
+              </div>
+              <div class="vdx-premium-card__body">
+                <div class="vdx-premium-row">
+                  <div class="vdx-premium-row__label">Base Premium</div>
+                  <div class="vdx-premium-row__value">$12,000.00</div>
+                </div>
+                <div class="vdx-premium-row">
+                  <div class="vdx-premium-row__label">Taxes & Fees</div>
+                  <div class="vdx-premium-row__value">$450.00</div>
+                </div>
+                <div class="vdx-premium-row vdx-premium-row--total">
+                  <div class="vdx-premium-row__label">Total Amount Due</div>
+                  <div class="vdx-premium-row__value">$12,450.00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-inventory" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Inventory</h2>
+          </div>
+          <div class="showcase-demo" style="padding:0; border:none; background:transparent;">
+            <div class="vdx-table-wrapper">
+              <table class="vdx-table">
+                <thead>
+                  <tr><th>SKU</th><th>Item</th><th>Category</th><th class="vdx-table__cell--numeric">Stock</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="vdx-table__cell--mono">IN-001</td><td>Laptop Dell XPS</td><td><span class="vdx-chip">Electronics</span></td><td class="vdx-table__cell--numeric">45</td><td><span class="vdx-badge vdx-badge--success">In Stock</span></td></tr>
+                  <tr><td class="vdx-table__cell--mono">IN-002</td><td>Printer HP LaserJet</td><td><span class="vdx-chip">Electronics</span></td><td class="vdx-table__cell--numeric">3</td><td><span class="vdx-badge vdx-badge--warning">Low Stock</span></td></tr>
+                  <tr><td class="vdx-table__cell--mono">IN-003</td><td>Office Chair</td><td><span class="vdx-chip">Furniture</span></td><td class="vdx-table__cell--numeric">0</td><td><span class="vdx-badge vdx-badge--error">Out of Stock</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+<section id="sec-hr" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">HR Module</h2>
+            <p class="vdx-body-sm vdx-text-secondary">Employee Directory</p>
+          </div>
+          <div class="showcase-demo" style="background: var(--vdx-color-bg-canvas);">
+            <div class="vdx-grid vdx-grid--3">
+              <div class="vdx-card vdx-flex vdx-items-center vdx-gap-4">
+                <div class="vdx-avatar vdx-avatar--lg">PS</div>
+                <div>
+                  <div class="vdx-h6">Priya Sharma</div>
+                  <div class="vdx-body-xs vdx-text-secondary">Underwriter · Mumbai</div>
+                </div>
+              </div>
+              <div class="vdx-card vdx-flex vdx-items-center vdx-gap-4">
+                <div class="vdx-avatar-wrapper">
+                  <div class="vdx-avatar vdx-avatar--lg">RP</div>
+                  <div class="vdx-avatar-status vdx-avatar-status--online"></div>
+                </div>
+                <div>
+                  <div class="vdx-h6">Raj Patel</div>
+                  <div class="vdx-body-xs vdx-text-secondary">Senior Underwriter · Delhi</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-crm" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">CRM</h2>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-dl vdx-dl--3">
+              <div>
+                <dt class="vdx-dl__term">Customer Name</dt>
+                <dd class="vdx-dl__value">Acme Corp Ltd.</dd>
+              </div>
+              <div>
+                <dt class="vdx-dl__term">Industry</dt>
+                <dd class="vdx-dl__value">Manufacturing</dd>
+              </div>
+              <div>
+                <dt class="vdx-dl__term">Total Value</dt>
+                <dd class="vdx-dl__value vdx-table__cell--mono">$450,000</dd>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-finance" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Finance</h2>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-grid vdx-grid--2">
+              <div class="vdx-kpi-card">
+                <div class="vdx-kpi-card__label">Monthly Revenue</div>
+                <div class="vdx-kpi-card__value">$1.2M</div>
+                <div class="vdx-kpi-card__trend vdx-kpi-card__trend--up">↑ +5% <span class="vdx-kpi-card__period">vs last month</span></div>
+              </div>
+              <div class="vdx-kpi-card">
+                <div class="vdx-kpi-card__label">Expenses</div>
+                <div class="vdx-kpi-card__value">$400K</div>
+                <div class="vdx-kpi-card__trend vdx-kpi-card__trend--down">↓ -2% <span class="vdx-kpi-card__period">vs last month</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-report" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Report</h2>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-page-header">
+              <div class="vdx-page-header__content">
+                <h1 class="vdx-h3">Q3 Premium Production</h1>
+                <p class="vdx-page-header__subtitle">Generated on Oct 1, 2026</p>
+              </div>
+              <div class="vdx-page-header__actions">
+                <button class="vdx-btn vdx-btn--outline">Export CSV</button>
+                <button class="vdx-btn vdx-btn--primary">Print</button>
+              </div>
+            </div>
+            <hr class="vdx-divider">
+            <p class="vdx-text-secondary">Report data goes here...</p>
+          </div>
+        </section>
+<section id="sec-settings" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Settings</h2>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-tabs">
+              <div class="vdx-tabs__list" role="tablist">
+                <button class="vdx-tabs__tab vdx-tabs__tab--active" role="tab" aria-selected="true" aria-controls="set-1">Profile</button>
+                <button class="vdx-tabs__tab" role="tab" aria-selected="false" aria-controls="set-2">Security</button>
+              </div>
+              <div id="set-1" class="vdx-tabs__panel" role="tabpanel">
+                <div class="vdx-form-grid">
+                  <div class="vdx-form-field">
+                    <label class="vdx-label">Full Name</label>
+                    <input type="text" class="vdx-input" value="Priya Sharma">
+                  </div>
+                  <div class="vdx-form-field">
+                    <label class="vdx-label">Email</label>
+                    <input type="email" class="vdx-input" value="priya@veridex.com">
+                  </div>
+                </div>
+                <div class="vdx-form-actions vdx-mt-6">
+                  <button class="vdx-btn vdx-btn--primary">Save Profile</button>
+                </div>
+              </div>
+              <div id="set-2" class="vdx-tabs__panel" role="tabpanel" hidden>
+                <p>Security settings...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-login" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Login Page</h2>
+          </div>
+          <div class="showcase-demo" style="background: var(--vdx-color-bg-canvas); padding: 48px; display: flex; justify-content: center;">
+            <div class="vdx-card vdx-card--raised" style="width: 100%; max-width: 400px;">
+              <div class="vdx-card__header vdx-justify-center vdx-mb-6">
+                <span class="vdx-logo__text" style="font-size: 24px;">Veri<span class="vdx-logo__text-accent">Dex</span></span>
+              </div>
+              <div class="vdx-form-field vdx-mb-4">
+                <label class="vdx-label">Email address</label>
+                <input type="email" class="vdx-input">
+              </div>
+              <div class="vdx-form-field vdx-mb-6">
+                <label class="vdx-label">Password</label>
+                <input type="password" class="vdx-input">
+              </div>
+              <button class="vdx-btn vdx-btn--primary vdx-w-full">Sign In</button>
+            </div>
+          </div>
+        </section>
+<section id="sec-user" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">User Management</h2>
+          </div>
+          <div class="showcase-demo" style="padding:0; border:none; background:transparent;">
+            <div class="vdx-table-wrapper">
+              <table class="vdx-table">
+                <thead>
+                  <tr><th>User</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Priya Sharma</td>
+                    <td><span class="vdx-badge vdx-badge--primary">Admin</span></td>
+                    <td><span class="vdx-status-chip vdx-status-chip--active"><span class="vdx-status-chip__dot"></span>Active</span></td>
+                    <td><button class="vdx-btn vdx-btn--outline vdx-btn--sm">Edit</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+<section id="sec-role" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Role & Permission</h2>
+          </div>
+          <div class="showcase-demo" style="padding:0; border:none; background:transparent;">
+            <div class="vdx-table-wrapper">
+              <table class="vdx-table">
+                <thead>
+                  <tr><th>Permission</th><th>Read</th><th>Write</th><th>Delete</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Policies</td>
+                    <td><label class="vdx-toggle-wrapper"><input type="checkbox" class="vdx-toggle" checked></label></td>
+                    <td><label class="vdx-toggle-wrapper"><input type="checkbox" class="vdx-toggle" checked></label></td>
+                    <td><label class="vdx-toggle-wrapper"><input type="checkbox" class="vdx-toggle"></label></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+<section id="sec-notif" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Notifications Feed</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-notification-feed</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-notification-feed" style="max-width: 400px; border: 1px solid var(--vdx-color-border-subtle); border-radius: var(--vdx-radius-md);">
+              <div class="vdx-notification-item vdx-notification-item--unread">
+                <div class="vdx-notification-item__icon">💬</div>
+                <div class="vdx-notification-item__content">
+                  <div class="vdx-notification-item__title">New Endorsement Request</div>
+                  <div class="vdx-notification-item__body">Acme Corp requested an address change.</div>
+                  <div class="vdx-notification-item__time">2 mins ago</div>
+                </div>
+              </div>
+              <div class="vdx-notification-item">
+                <div class="vdx-notification-item__icon">✓</div>
+                <div class="vdx-notification-item__content">
+                  <div class="vdx-notification-item__title">Payment Received</div>
+                  <div class="vdx-notification-item__body">Invoice INV-9923 was paid.</div>
+                  <div class="vdx-notification-item__time">1 hour ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+<section id="sec-audit" class="showcase-section">
+          <div class="showcase-section-header">
+            <h2 class="vdx-h2">Audit Log</h2>
+            <p class="vdx-body-sm vdx-text-secondary">.vdx-audit-change</p>
+          </div>
+          <div class="showcase-demo">
+            <div class="vdx-audit-change">
+              <div class="vdx-audit-change__header">
+                <div class="vdx-audit-change__field">Coverage Limit (General Liability)</div>
+                <div class="vdx-audit-change__meta">Changed by Priya Sharma on Oct 1, 10:45 AM</div>
+              </div>
+              <div class="vdx-audit-change__values">
+                <div class="vdx-audit-change__prev">
+                  <div class="vdx-audit-change__value-label">Previous</div>
+                  <div class="vdx-audit-change__value">$1,000,000</div>
+                </div>
+                <div class="vdx-audit-change__next">
+                  <div class="vdx-audit-change__value-label">New</div>
+                  <div class="vdx-audit-change__value">$2,000,000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section><div id="no-results" class="vdx-empty" hidden><h2 class="vdx-empty__title">No matching components</h2><p class="vdx-empty__body" id="no-results-term"></p><button class="vdx-btn vdx-btn--outline" id="clear-search">Clear search</button></div><footer class="vdx-body-xs vdx-text-secondary vdx-mt-6">VeriDex UI framework v2.0 · HTML reference · All examples use vdx-global.css.</footer></div></main></div><div class="vdx-toast-region" id="library-status" aria-live="polite" aria-label="Demo notifications"></div><script>
+'use strict';
+const $ = (s, root = document) => root.querySelector(s);
+const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+const sidebar = $('#library-sidebar');
+const mobile = () => matchMedia('(max-width: 767px)').matches;
+function setNavigation(open) {
+  sidebar.classList.toggle('vdx-sidebar--open', mobile() && open);
+  $('#nav-backdrop').classList.toggle('vdx-sidebar-overlay--visible', mobile() && open);
+  if (!mobile()) sidebar.classList.toggle('vdx-sidebar--collapsed', !open);
+  for (const b of [$('#menu-toggle'), $('#sidebar-toggle')]) b.setAttribute('aria-expanded', String(open));
+  $('#sidebar-toggle').setAttribute('aria-label', open ? 'Collapse navigation' : 'Expand navigation');
+  if (mobile() && open) $('#library-nav a:not([hidden])')?.focus();
+}
+if (innerWidth >= 768 && innerWidth < 1024) setNavigation(false);
+$('#menu-toggle').onclick = () => setNavigation(mobile() ? !sidebar.classList.contains('vdx-sidebar--open') : sidebar.classList.contains('vdx-sidebar--collapsed'));
+$('#sidebar-toggle').onclick = () => { setNavigation(mobile() ? false : sidebar.classList.contains('vdx-sidebar--collapsed')); if (mobile()) $('#menu-toggle').focus(); };
+$('#nav-backdrop').onclick = () => { setNavigation(false); $('#menu-toggle').focus(); };
+window.addEventListener('resize', () => { if (!mobile()) { sidebar.classList.remove('vdx-sidebar--open'); $('#nav-backdrop').classList.remove('vdx-sidebar-overlay--visible'); } });
+function notify(message, type = 'info') {
+  const toast = document.createElement('div');
+  toast.className = 'vdx-toast vdx-toast--' + type;
+  const content = document.createElement('div'); content.className = 'vdx-toast__content'; content.textContent = message;
+  const close = document.createElement('button'); close.className = 'vdx-toast__close'; close.textContent = '×'; close.setAttribute('aria-label', 'Dismiss notification'); close.onclick = () => toast.remove();
+  toast.append(content, close); $('#library-status').append(toast);
+  while ($('#library-status').children.length > 3) $('#library-status').firstElementChild.remove();
+  let timer = setTimeout(() => toast.remove(), 6000);
+  toast.onmouseenter = toast.onfocusin = () => clearTimeout(timer);
+  toast.onmouseleave = toast.onfocusout = () => { timer = setTimeout(() => toast.remove(), 6000); };
+}
+
+// Tabs: arrow keys, Home/End, roving tabindex, and linked panels.
+$$('.vdx-tabs').forEach((group, gi) => {
+  const tabs = $$('.vdx-tabs__tab', group); $('.vdx-tabs__list', group).setAttribute('role', 'tablist');
+  tabs.forEach((tab, i) => {
+    tab.id ||= `tab-${gi}-${i}`; tab.setAttribute('role', 'tab'); tab.tabIndex = tab.classList.contains('vdx-tabs__tab--active') ? 0 : -1;
+    const panel = document.getElementById(tab.getAttribute('aria-controls'));
+    if (panel) { panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', tab.id); panel.hidden = tab.tabIndex !== 0; }
+    tab.onclick = () => { if (tab.disabled) return; tabs.forEach(t => { const active = t === tab; t.classList.toggle('vdx-tabs__tab--active', active); t.setAttribute('aria-selected', String(active)); t.tabIndex = active ? 0 : -1; const p = document.getElementById(t.getAttribute('aria-controls')); if (p) p.hidden = !active; }); };
+    tab.onkeydown = e => { const available = tabs.filter(t => !t.disabled); const j = available.indexOf(tab); const dest = {ArrowRight: (j+1)%available.length, ArrowLeft:(j-1+available.length)%available.length, Home:0, End:available.length-1}[e.key]; if (dest !== undefined) { e.preventDefault(); available[dest].click(); available[dest].focus(); } };
+  });
+});
+$$('.vdx-accordion__trigger').forEach((trigger, i) => {
+  const panel = trigger.nextElementSibling; panel.id ||= `accordion-panel-${i}`; trigger.setAttribute('aria-controls', panel.id);
+  panel.hidden = trigger.getAttribute('aria-expanded') !== 'true'; panel.style.removeProperty('display');
+  trigger.onclick = () => { const open = trigger.getAttribute('aria-expanded') !== 'true'; trigger.setAttribute('aria-expanded', String(open)); panel.hidden = !open; };
+});
+
+// Dialogs live outside the searchable cards, with focus containment and restoration.
+let overlay = null, returnFocus = null;
+function openModal(id) {
+  const target = document.getElementById(id); returnFocus = document.activeElement; overlay = target;
+  target.hidden = false; target.style.display = 'flex'; document.body.style.overflow = 'hidden'; $('#library-shell').inert = true;
+  $('button, input, textarea, select, [tabindex="0"]', target)?.focus();
+}
+function closeModal() {
+  if (!overlay) return;
+  overlay.hidden = true; overlay.style.display = 'none'; overlay = null; document.body.style.overflow = ''; $('#library-shell').inert = false; returnFocus?.focus();
+}
+const modal = $('#demo-modal'); document.body.append(modal);
+$('.vdx-modal__title', modal).id = 'modal-title'; $('[role="dialog"]', modal).setAttribute('aria-labelledby', 'modal-title');
+modal.onclick = e => { if (e.target === modal) closeModal(); };
+const drawer = $('#sec-drawer .vdx-drawer'); drawer.removeAttribute('style'); drawer.setAttribute('role', 'dialog'); drawer.setAttribute('aria-modal', 'true'); drawer.setAttribute('aria-labelledby', 'drawer-title'); $('.vdx-drawer__title', drawer).id = 'drawer-title';
+const drawerBackdrop = document.createElement('div'); drawerBackdrop.id = 'demo-drawer'; drawerBackdrop.className = 'vdx-drawer-backdrop'; drawerBackdrop.hidden = true; drawerBackdrop.append(drawer); document.body.append(drawerBackdrop);
+const drawerDemo = $('#sec-drawer .showcase-demo'); drawerDemo.removeAttribute('style'); drawerDemo.innerHTML = '<button class="vdx-btn vdx-btn--outline" id="open-drawer">Open document details</button>';
+$('#open-drawer').onclick = () => openModal('demo-drawer');
+$('.vdx-btn-icon', drawer).setAttribute('aria-label', 'Close document details'); $('.vdx-btn-icon', drawer).onclick = closeModal;
+$('.vdx-drawer__footer button', drawer).onclick = () => notify('Sample document only — no file is attached to this demo.');
+drawerBackdrop.onclick = e => { if (e.target === drawerBackdrop) closeModal(); };
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (overlay) closeModal();
+    else if (sidebar.classList.contains('vdx-sidebar--open')) { setNavigation(false); $('#menu-toggle').focus(); }
+    $$('.vdx-popover, .vdx-tooltip').forEach(p => { p.hidden = true; p.previousElementSibling?.setAttribute('aria-expanded', 'false'); });
+  }
+  const scope = overlay || (mobile() && sidebar.classList.contains('vdx-sidebar--open') ? sidebar : null);
+  if (e.key === 'Tab' && scope) {
+    const focusable = $$('button, a[href], input, textarea, select, [tabindex="0"]', scope).filter(el => !el.disabled && el.getClientRects().length && !el.closest('[hidden]'));
+    const first = focusable[0], last = focusable.at(-1);
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+// Transient feedback, selectable chips, and dismissible alerts.
+$('#sec-toast .showcase-section-header p').textContent = 'Trigger a notification to preview each feedback variant.';
+$('#sec-toast .showcase-demo').innerHTML = '<div class="demo-flex">' + ['success','warning','error','info'].map(t => `<button class="vdx-btn vdx-btn--outline" data-toast="${t}">${t[0].toUpperCase()+t.slice(1)} toast</button>`).join('') + '</div>';
+$$('[data-toast]').forEach(b => b.onclick = () => notify({success:'Policy bound. POL-2024-001 is ready.',warning:'Policy renewal is due in 7 days.',error:'Upload failed. Select a file and try again.',info:'Your report is ready to review.'}[b.dataset.toast], b.dataset.toast));
+$$('.vdx-alert__dismiss').forEach(b => b.onclick = () => b.closest('.vdx-alert').remove());
+$$('.vdx-chip__remove').forEach(b => { b.setAttribute('aria-label','Remove '+b.parentElement.textContent.replace('×','').trim()); b.onclick = () => b.closest('.vdx-chip').remove(); });
+$$('.vdx-chip--selectable').forEach(chip => { chip.setAttribute('role','button'); chip.tabIndex = 0; chip.setAttribute('aria-pressed', String(chip.classList.contains('vdx-chip--selected'))); chip.onclick = () => { const selected = chip.classList.toggle('vdx-chip--selected'); chip.setAttribute('aria-pressed',String(selected)); }; chip.onkeydown = e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); chip.click(); } }; });
+$$('#sec-tooltip .vdx-tooltip, #sec-tooltip .vdx-popover').forEach((panel,i) => {
+  const trigger = panel.previousElementSibling; panel.hidden = true; panel.id = `context-${i}`;
+  if (panel.classList.contains('vdx-tooltip')) {
+    panel.setAttribute('role','tooltip'); trigger.setAttribute('aria-describedby',panel.id);
+    trigger.parentElement.onmouseenter = () => panel.hidden = false;
+    trigger.parentElement.onmouseleave = () => panel.hidden = true;
+    trigger.onfocus = () => panel.hidden = false; trigger.onblur = () => panel.hidden = true;
+  } else {
+    trigger.setAttribute('aria-controls',panel.id); trigger.setAttribute('aria-expanded','false');
+    trigger.onclick = () => { panel.hidden = !panel.hidden; trigger.setAttribute('aria-expanded',String(!panel.hidden)); };
+    document.addEventListener('click',e => { if (!trigger.parentElement.contains(e.target)) { panel.hidden = true; trigger.setAttribute('aria-expanded','false'); } });
+  }
+});
+
+// Label the inherited form examples and their validation messages.
+$$('.vdx-form-field').forEach((field,i) => {
+  const control = $('input, select, textarea',field), label = $('label',field); if (!control) return;
+  control.id ||= `field-${i}`; if (label) label.htmlFor = control.id;
+  const messages = $$('.vdx-hint, .vdx-error-text, .vdx-success-text',field);
+  messages.forEach((m,j) => m.id ||= `field-${i}-hint-${j}`);
+  if (messages.length) control.setAttribute('aria-describedby',messages.map(m=>m.id).join(' '));
+});
+$$('input, select, textarea').forEach((el,i) => {
+  const wrapping = el.closest('label');
+  if (!el.getAttribute('aria-label') && !el.labels?.length && !wrapping?.textContent.trim()) {
+    const row = el.closest('tr'); const col = el.closest('td,th');
+    el.setAttribute('aria-label', row && col ? `${el.type === 'checkbox' ? 'Select' : 'Value for'} ${row.textContent.trim().slice(0,50) || 'all rows'} ${col.cellIndex+1}` : el.placeholder || 'Rows per page');
+  } else if (wrapping && !wrapping.textContent.trim()) {
+    const cell = el.closest('td'); el.setAttribute('aria-label', `Policies ${['','read','write','delete'][cell?.cellIndex] || 'permission'}`);
+  }
+});
+const dropzone = $('.vdx-dropzone');
+dropzone.insertAdjacentHTML('beforeend','<button type="button" class="vdx-btn vdx-btn--outline vdx-btn--sm vdx-mt-4" id="browse-file">Browse files</button><input id="demo-file" type="file" class="vdx-sr-only" accept=".pdf,.docx" aria-label="Upload PDF or DOCX document">');
+function previewFile(file) {
+  if (!file) return;
+  const valid = /\.(pdf|docx)$/i.test(file.name) && file.size <= 10*1024*1024;
+  $('.vdx-dropzone__hint',dropzone).textContent = valid ? `${file.name} — selected locally. No upload is sent.` : 'Choose a PDF or DOCX file smaller than 10 MB.';
+  notify(valid ? 'Document selected for preview.' : 'Unsupported file type or file larger than 10 MB.', valid ? 'success' : 'error');
+}
+$('#browse-file').onclick = () => $('#demo-file').click();
+$('#demo-file').onchange = e => previewFile(e.target.files[0]);
+$('.vdx-dropzone__hint',dropzone).textContent = 'PDF or DOCX, up to 10 MB. Files stay on your device.';
+dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('vdx-dropzone--drag-over'); };
+dropzone.ondragleave = () => dropzone.classList.remove('vdx-dropzone--drag-over');
+dropzone.ondrop = e => { e.preventDefault(); dropzone.classList.remove('vdx-dropzone--drag-over'); previewFile(e.dataTransfer.files[0]); };
+$('#sec-forms .vdx-form-actions .vdx-btn--primary').onclick = () => {
+  const input = $('#policyName'), valid = Boolean(input.value.trim()); input.setAttribute('aria-invalid',String(!valid));
+  $('.vdx-error-text',input.closest('.vdx-form-field')).hidden = valid; $('#sec-forms .vdx-validation-summary').hidden = valid;
+  if (valid) notify('Changes saved for this demo.', 'success'); else input.focus();
+};
+
+// Table demo: real local filtering, sorting, selection, and pagination.
+const tableSection = $('#sec-table'), table = $('table',tableSection), tbody = $('tbody',table);
+const rows = $$('tbody tr',table), policySearch = $('.vdx-table-toolbar input',tableSection);
+let tablePage = 1, pageSize = 2, activeOnly = false;
+const sizeSelect = $('.vdx-paginator select',tableSection); sizeSelect.innerHTML = '<option value="2">2</option><option value="3">3</option><option value="5">5</option>';
+const filterBtn = $('.vdx-table-toolbar__left button',tableSection); filterBtn.textContent = 'Active only'; filterBtn.setAttribute('aria-pressed','false');
+function renderTable() {
+  const matches = rows.filter(r => r.textContent.toLowerCase().includes(policySearch.value.toLowerCase()) && (!activeOnly || $('.vdx-status-chip--active',r)));
+  const pages = Math.max(1,Math.ceil(matches.length/pageSize)); tablePage = Math.min(tablePage,pages);
+  rows.forEach(r=>r.hidden = true); matches.slice((tablePage-1)*pageSize,tablePage*pageSize).forEach(r=>r.hidden=false);
+  $('.vdx-paginator__info',tableSection).textContent = matches.length ? `Showing ${(tablePage-1)*pageSize+1}–${Math.min(tablePage*pageSize,matches.length)} of ${matches.length} demo policies` : 'No matching policies';
+  const controls = $('.vdx-paginator__controls',tableSection); controls.replaceChildren();
+  [['Previous',tablePage-1],...Array.from({length:pages},(_,i)=>[String(i+1),i+1]),['Next',tablePage+1]].forEach(([label,page]) => {
+    const b=document.createElement('button'); b.className='vdx-paginator__btn'; b.textContent=label; b.setAttribute('aria-label',`Page ${label}`); b.disabled=page<1||page>pages; if(label===String(tablePage)) b.setAttribute('aria-current','page'); b.onclick=()=>{tablePage=page;renderTable();}; controls.append(b);
+  });
+}
+policySearch.oninput = () => { tablePage=1; renderTable(); };
+sizeSelect.onchange=()=>{pageSize=Number(sizeSelect.value);tablePage=1;renderTable();};
+filterBtn.onclick=()=>{activeOnly=!activeOnly;filterBtn.setAttribute('aria-pressed',String(activeOnly));tablePage=1;renderTable();};
+$$('.vdx-table__th--sortable',table).forEach(th=>{
+  const index=th.cellIndex; const b=document.createElement('button'); b.className='vdx-btn vdx-btn--ghost vdx-btn--sm'; b.textContent=th.textContent; th.replaceChildren(b);
+  b.onclick=()=>{const ascending=th.getAttribute('aria-sort')!=='ascending'; $$('th[aria-sort]',table).forEach(t=>t.removeAttribute('aria-sort')); th.setAttribute('aria-sort',ascending?'ascending':'descending'); rows.sort((a,b)=>a.cells[index].textContent.localeCompare(b.cells[index].textContent)*(ascending?1:-1)); rows.forEach(r=>tbody.append(r)); renderTable();};
+});
+const selectAll=$('thead input',table); selectAll.setAttribute('aria-label','Select all demo policies');
+function syncSelection(){rows.forEach(r=>r.classList.toggle('vdx-table__row--selected',$('input',r).checked));const n=rows.filter(r=>$('input',r).checked).length;selectAll.checked=n===rows.length;selectAll.indeterminate=n>0&&n<rows.length;}
+selectAll.onchange=()=>{rows.forEach(r=>$('input',r).checked=selectAll.checked);syncSelection();}; rows.forEach(r=>$('input',r).onchange=syncSelection); syncSelection(); renderTable();
+
+// Calendar demo: a complete month with working previous / next controls.
+const calendar=$('#sec-calendar'), monthLabel=$('.vdx-label-md',calendar); let month=new Date(2025,5,1);
+const calendarButtons=$$('.vdx-btn-icon',calendar); calendarButtons[0].setAttribute('aria-label','Previous month');calendarButtons[1].setAttribute('aria-label','Next month');
+function renderCalendar(){
+ monthLabel.textContent=month.toLocaleDateString('en',{month:'long',year:'numeric'}); const body=$('tbody',calendar);body.replaceChildren();
+ const count=new Date(month.getFullYear(),month.getMonth()+1,0).getDate(), offset=month.getDay();
+ for(let i=0;i<Math.ceil((offset+count)/7)*7;i++){if(i%7===0)body.append(document.createElement('tr'));const cell=document.createElement('td');const day=i-offset+1;if(day>0&&day<=count){const b=document.createElement('button');b.className='vdx-btn-icon';b.textContent=day;b.setAttribute('aria-label',`${monthLabel.textContent} ${day}`);b.onclick=()=>{ $$('button[aria-pressed]',body).forEach(x=>{x.removeAttribute('aria-pressed');x.classList.remove('vdx-bg-subtle');});b.setAttribute('aria-pressed','true');b.classList.add('vdx-bg-subtle');notify(`Selected ${monthLabel.textContent} ${day}.`);};cell.append(b);}body.lastElementChild.append(cell);}
+}
+calendarButtons.forEach((b,i)=>b.onclick=()=>{month=new Date(month.getFullYear(),month.getMonth()+(i?1:-1),1);renderCalendar();});renderCalendar();
+
+// Keep illustrative business actions honest: these are local examples, not backend operations.
+$$('.showcase-demo button').forEach(b=>{
+ if(!b.getAttribute('aria-label')&& /^[⋮✕×<>]$/.test(b.textContent.trim())) b.setAttribute('aria-label',b.textContent.trim()==='⋮'?'More actions':'Demo control');
+ if(!b.onclick&&!b.hasAttribute('onclick')&&!b.closest('.vdx-tabs, .vdx-accordion, #sec-calendar')&&!b.disabled) b.onclick=()=>notify(`${b.textContent.trim() || b.getAttribute('aria-label')}: preview action only.`);
+});
+$$('a[href="#"]', $('#library-content')).forEach(a=>a.addEventListener('click',e=>{e.preventDefault();notify('Example link — no external page is connected.');}));
+
+const CLASS_INVENTORY = [
+  {
+    id:'layout', title:'Layout',
+    desc:'Application shell, page scaffolding and grid / stack primitives.',
+    classes:['.vdx-app-shell','.vdx-app-body','.vdx-main-content','.vdx-topbar','.vdx-topbar__start','.vdx-topbar__center','.vdx-topbar__end','.vdx-container','.vdx-grid','.vdx-grid--2','.vdx-grid--3','.vdx-grid--4','.vdx-stack','.vdx-inline']
+  },
+  {
+    id:'sidebar', title:'Sidebar',
+    desc:'Primary navigation rail with collapsible state and nav item parts.',
+    classes:['.vdx-sidebar','.vdx-sidebar--collapsed','.vdx-nav','.vdx-nav__group-label','.vdx-nav__item','.vdx-nav__item--active','.vdx-nav__icon','.vdx-nav__label','.vdx-nav__badge','.vdx-sidebar__toggle']
+  },
+  {
+    id:'buttons', title:'Buttons',
+    desc:'Action triggers across variants, sizes and grouped layouts.',
+    classes:['.vdx-btn','.vdx-btn--primary','.vdx-btn--secondary','.vdx-btn--outline','.vdx-btn--ghost','.vdx-btn--destructive','.vdx-btn--sm','.vdx-btn--lg','.vdx-btn--loading','.vdx-btn-icon','.vdx-btn-group']
+  },
+  {
+    id:'cards', title:'Cards',
+    desc:'Flexible content containers with density, elevation and selection states.',
+    classes:['.vdx-card','.vdx-card--compact','.vdx-card--comfortable','.vdx-card--raised','.vdx-card--flat','.vdx-card--clickable','.vdx-card--selected','.vdx-card__header','.vdx-card__title','.vdx-card__body','.vdx-card__footer']
+  },
+  {
+    id:'badges', title:'Badges',
+    desc:'Compact status and count indicators.',
+    classes:['.vdx-badge','.vdx-badge--success','.vdx-badge--warning','.vdx-badge--error','.vdx-badge--info','.vdx-badge--primary','.vdx-badge--navy','.vdx-badge--count','.vdx-badge--dot']
+  },
+  {
+    id:'chips', title:'Chips',
+    desc:'Selectable and removable tokens for filters and tags.',
+    classes:['.vdx-chip','.vdx-chip--selectable','.vdx-chip--selected','.vdx-chip__remove']
+  },
+  {
+    id:'avatar', title:'Avatar',
+    desc:'User and entity imagery with a size scale and presence status.',
+    classes:['.vdx-avatar','.vdx-avatar--xs','.vdx-avatar--sm','.vdx-avatar--md','.vdx-avatar--lg','.vdx-avatar--xl','.vdx-avatar-wrapper','.vdx-avatar-status','.vdx-avatar-status--online','.vdx-avatar-status--away','.vdx-avatar-status--offline']
+  },
+  {
+    id:'tabs', title:'Tabs',
+    desc:'Horizontal section switching with associated tab panels.',
+    classes:['.vdx-tabs','.vdx-tabs__list','.vdx-tabs__tab','.vdx-tabs__tab--active','.vdx-tabs__panel']
+  },
+  {
+    id:'accordion', title:'Accordion',
+    desc:'Collapsible content sections with trigger, icon and panel.',
+    classes:['.vdx-accordion','.vdx-accordion__item','.vdx-accordion__trigger','.vdx-accordion__icon','.vdx-accordion__content']
+  },
+  {
+    id:'breadcrumb', title:'Breadcrumb',
+    desc:'Hierarchical location trail.',
+    classes:['.vdx-breadcrumb','.vdx-breadcrumb__list','.vdx-breadcrumb__item','.vdx-breadcrumb__link','.vdx-breadcrumb__current']
+  },
+  {
+    id:'stepper', title:'Stepper',
+    desc:'Multi-step progress for wizards and linear flows.',
+    classes:['.vdx-stepper','.vdx-stepper--vertical','.vdx-stepper__step','.vdx-stepper__step--active','.vdx-stepper__step--completed','.vdx-stepper__step--error','.vdx-stepper__indicator','.vdx-stepper__label']
+  },
+  {
+    id:'modal', title:'Modal',
+    desc:'Centered overlay dialogs across five width presets.',
+    classes:['.vdx-modal-backdrop','.vdx-modal','.vdx-modal--sm','.vdx-modal--md','.vdx-modal--lg','.vdx-modal--xl','.vdx-modal--fullscreen','.vdx-modal__header','.vdx-modal__title','.vdx-modal__body','.vdx-modal__footer']
+  },
+  {
+    id:'drawer', title:'Drawer',
+    desc:'Edge-anchored sliding panels.',
+    classes:['.vdx-drawer-backdrop','.vdx-drawer','.vdx-drawer--sm','.vdx-drawer--md','.vdx-drawer--lg','.vdx-drawer--closed','.vdx-drawer__header','.vdx-drawer__title','.vdx-drawer__body','.vdx-drawer__footer']
+  },
+  {
+    id:'tooltip-popover', title:'Tooltip / Popover',
+    desc:'Contextual hover and click-triggered overlays.',
+    classes:['.vdx-tooltip','.vdx-popover']
+  },
+  {
+    id:'alerts', title:'Alerts',
+    desc:'Inline and banner-level feedback messages.',
+    classes:['.vdx-alert','.vdx-alert--success','.vdx-alert--warning','.vdx-alert--error','.vdx-alert--info','.vdx-alert__icon','.vdx-alert__content','.vdx-alert__title','.vdx-alert__dismiss','.vdx-alert-banner','.vdx-alert-banner--success','.vdx-alert-banner--warning','.vdx-alert-banner--error','.vdx-alert-banner--info']
+  },
+  {
+    id:'toasts', title:'Toasts',
+    desc:'Transient notification stack.',
+    classes:['.vdx-toast-region','.vdx-toast','.vdx-toast--success','.vdx-toast--warning','.vdx-toast--error','.vdx-toast--info','.vdx-toast__content','.vdx-toast__title','.vdx-toast__body','.vdx-toast__close']
+  },
+  {
+    id:'forms', title:'Forms',
+    desc:'Inputs, controls, validation messaging, dropzone and form layout helpers.',
+    classes:['.vdx-form-field','.vdx-label','.vdx-label__required','.vdx-input','.vdx-input--sm','.vdx-input--lg','.vdx-input-wrapper','.vdx-input-prefix','.vdx-input-suffix','.vdx-textarea','.vdx-select','.vdx-checkbox-wrapper','.vdx-checkbox','.vdx-radio-wrapper','.vdx-radio','.vdx-toggle-wrapper','.vdx-toggle','.vdx-search-wrapper','.vdx-search-icon','.vdx-hint','.vdx-error-text','.vdx-success-text','.vdx-dropzone','.vdx-dropzone--drag-over','.vdx-dropzone__icon','.vdx-dropzone__title','.vdx-dropzone__hint','.vdx-form-grid','.vdx-form-grid--3','.vdx-form-actions','.vdx-validation-summary']
+  },
+  {
+    id:'table', title:'Table',
+    desc:'Data grid with density, sorting, selection states and toolbar.',
+    classes:['.vdx-table-wrapper','.vdx-table','.vdx-table--compact','.vdx-table--spacious','.vdx-table--striped','.vdx-table__th--sortable','.vdx-table__sort-icon','.vdx-table__row--selected','.vdx-table__row--error','.vdx-table__col-check','.vdx-table__cell--mono','.vdx-table__cell--numeric','.vdx-table__cell--muted','.vdx-table__cell--actions','.vdx-table-toolbar','.vdx-table-toolbar__left','.vdx-table-toolbar__right']
+  },
+  {
+    id:'paginator', title:'Paginator',
+    desc:'Page navigation and page-size controls.',
+    classes:['.vdx-paginator','.vdx-paginator__info','.vdx-paginator__controls','.vdx-paginator__btn','.vdx-paginator__page-size']
+  },
+  {
+    id:'kpi-cards', title:'KPI Cards',
+    desc:'Metric tiles with trend direction and period context.',
+    classes:['.vdx-kpi-card','.vdx-kpi-card__label','.vdx-kpi-card__value','.vdx-kpi-card__trend','.vdx-kpi-card__trend--up','.vdx-kpi-card__trend--down','.vdx-kpi-card__trend--neutral','.vdx-kpi-card__period']
+  },
+  {
+    id:'loading', title:'Loading',
+    desc:'Spinners, skeleton placeholders and progress indicators.',
+    classes:['.vdx-spinner','.vdx-spinner--xs','.vdx-spinner--sm','.vdx-spinner--md','.vdx-spinner--lg','.vdx-spinner--xl','.vdx-skeleton','.vdx-skeleton--text','.vdx-skeleton--circle','.vdx-skeleton--card','.vdx-progress','.vdx-progress__bar','.vdx-progress--indeterminate','.vdx-progress--sm','.vdx-progress--lg']
+  },
+  {
+    id:'empty-state', title:'Empty State',
+    desc:'Zero-data placeholder with icon, copy and call to action.',
+    classes:['.vdx-empty','.vdx-empty__icon','.vdx-empty__title','.vdx-empty__body','.vdx-empty__actions']
+  },
+  {
+    id:'timeline', title:'Timeline',
+    desc:'Chronological event list with status dots.',
+    classes:['.vdx-timeline','.vdx-timeline__item','.vdx-timeline__dot','.vdx-timeline__dot--success','.vdx-timeline__dot--warning','.vdx-timeline__dot--error','.vdx-timeline__dot--info','.vdx-timeline__content','.vdx-timeline__event','.vdx-timeline__time','.vdx-timeline__body']
+  },
+  {
+    id:'status-chips', title:'Status Chips',
+    desc:'Lifecycle status indicators for policy and claim workflows.',
+    classes:['.vdx-status-chip','.vdx-status-chip__dot','.vdx-status-chip--draft','.vdx-status-chip--quoted','.vdx-status-chip--bound','.vdx-status-chip--active','.vdx-status-chip--renewal','.vdx-status-chip--expired','.vdx-status-chip--cancelled','.vdx-status-chip--open','.vdx-status-chip--in-review','.vdx-status-chip--pending','.vdx-status-chip--settled','.vdx-status-chip--closed','.vdx-status-chip--denied']
+  },
+  {
+    id:'insurance-domain', title:'Insurance Domain',
+    desc:'Insurance-specific composites — premiums, coverage and audit trail.',
+    classes:['.vdx-premium-card','.vdx-premium-row','.vdx-premium-row--total','.vdx-coverage-tile','.vdx-audit-change']
+  },
+  {
+    id:'documents', title:'Documents',
+    desc:'Attachment and document row presentation.',
+    classes:['.vdx-attachment','.vdx-attachment--uploading','.vdx-attachment--error','.vdx-doc-row']
+  },
+  {
+    id:'notifications', title:'Notifications',
+    desc:'Notification feed, unread items and counters.',
+    classes:['.vdx-notification-feed','.vdx-notification-item','.vdx-notification-item--unread','.vdx-notif-count']
+  },
+  {
+    id:'charts', title:'Charts',
+    desc:'Chart container wrappers and empty chart states.',
+    classes:['.vdx-chart-wrapper','.vdx-chart-wrapper__header','.vdx-chart-empty']
+  },
+  {
+    id:'typography', title:'Typography',
+    desc:'Heading scale, text styles, tones and truncation utilities.',
+    classes:['h1','h2','h3','h4','h5','h6','.vdx-h1','.vdx-h2','.vdx-h3','.vdx-h4','.vdx-h5','.vdx-h6','.vdx-display-2xl','.vdx-display-xl','.vdx-body-lg','.vdx-body-md','.vdx-body-sm','.vdx-body-xs','.vdx-label-lg','.vdx-label-md','.vdx-label-sm','.vdx-caption','.vdx-mono-md','.vdx-mono-sm','.vdx-text-primary','.vdx-text-secondary','.vdx-text-tertiary','.vdx-text-error','.vdx-text-success','.vdx-text-warning','.vdx-text-info','.vdx-truncate','.vdx-clamp-2','.vdx-clamp-3']
+  },
+  {
+    id:'dl', title:'DL (Key-Value)',
+    desc:'Definition list layouts for label / value pairs.',
+    classes:['.vdx-dl','.vdx-dl--3','.vdx-dl--full','.vdx-dl__term','.vdx-dl__value']
+  },
+  {
+    id:'page-header', title:'Page Header',
+    desc:'Standard page title block with subtitle and actions.',
+    classes:['.vdx-page-header','.vdx-page-header__content','.vdx-page-header__title','.vdx-page-header__subtitle','.vdx-page-header__actions']
+  },
+  {
+    id:'misc', title:'Misc',
+    desc:'Dividers, logo lockup and accessibility helpers.',
+    classes:['.vdx-divider','.vdx-divider--strong','.vdx-logo','.vdx-logo__text','.vdx-logo__text-accent','.vdx-sr-only']
+  }
+];
+// Supplement the original examples with document and coverage components named in the scroll.
+$('#sec-drawer .showcase-demo').insertAdjacentHTML('beforeend', `<div class="vdx-stack vdx-mt-6">
+<div class="vdx-doc-row"><span class="vdx-doc-row__icon" aria-hidden="true">▤</span><div class="vdx-doc-row__name">policy-schedule.pdf<div class="vdx-doc-row__meta">PDF · Uploaded by Priya Sharma</div></div><div class="vdx-doc-row__actions"><button class="vdx-btn vdx-btn--ghost vdx-btn--sm" onclick="openModal('demo-drawer')">Details</button></div></div>
+<div class="vdx-attachment"><span class="vdx-attachment__name">Policy schedule.pdf</span><span class="vdx-attachment__size">240 KB · Ready</span></div>
+<div class="vdx-attachment vdx-attachment--uploading"><span class="vdx-attachment__name">Claims report.docx</span><span class="vdx-attachment__size">Uploading · 60%</span></div>
+<div class="vdx-attachment vdx-attachment--error"><span class="vdx-attachment__name">Risk assessment.pdf</span><span class="vdx-text-error">Upload failed</span></div></div>`);
+$('#sec-invoice .showcase-demo').insertAdjacentHTML('beforeend',`<div class="vdx-coverage-tile vdx-mt-6"><div class="vdx-coverage-tile__header"><h3 class="vdx-coverage-tile__name">Commercial general liability</h3><span class="vdx-status-chip vdx-status-chip--bound">Bound</span></div><div class="vdx-coverage-tile__grid"><div><div class="vdx-coverage-tile__field-label">Coverage limit</div><div class="vdx-coverage-tile__field-value">$1,000,000</div></div><div><div class="vdx-coverage-tile__field-label">Deductible</div><div class="vdx-coverage-tile__field-value">$5,000</div></div></div></div>`);
+const inventoryTargets={layout:'shell',sidebar:'shell',buttons:'buttons',cards:'cards',badges:'badges',chips:'badges',avatar:'avatar',tabs:'tabs',accordion:'accordion',breadcrumb:'breadcrumb',stepper:'stepper',modal:'modal',drawer:'drawer','tooltip-popover':'tooltip',alerts:'alerts',toasts:'toast',forms:'forms',table:'table',paginator:'breadcrumb','kpi-cards':'dashboard',loading:'loading','empty-state':'empty',timeline:'timeline','status-chips':'badges','insurance-domain':'invoice',documents:'drawer',notifications:'notif',charts:'dashboard',typography:'typography',dl:'drawer','page-header':'shell',misc:'shell'};
+const sections=$$('.showcase-section');
+const records=sections.map((section,i)=>{
+  const title=$('h2',section).textContent;
+  const classes=new Set($$('[class]',section).flatMap(el=>[...el.classList]).filter(c=>c.startsWith('vdx-')));
+  for(const group of CLASS_INVENTORY.filter(g=>'sec-'+inventoryTargets[g.id]===section.id)) for(const c of group.classes) if(c.startsWith('.')) classes.add(c.slice(1));
+  const names=[...classes].sort();
+  const badge=document.createElement('span');badge.className='vdx-badge vdx-badge--count';badge.textContent=names.length;$('h2',section).append(badge);
+  const reference=document.createElement('details');reference.dataset.reference='';reference.open=true;
+  const summary=document.createElement('summary');summary.textContent=`CSS reference · ${names.length} classes`;
+  const pills=document.createElement('div');pills.dataset.classList='';
+  for(const name of names){const b=document.createElement('button');b.type='button';b.dataset.className=name;b.dataset.kind=name.includes('--')?'modifier':name.includes('__')?'element':'base';b.textContent='.'+name;b.title='Copy .'+name;pills.append(b);}
+  reference.append(summary,pills);section.append(reference);
+  const link=document.createElement('a');link.href='#'+section.id;link.className='vdx-nav__item';link.title=title;link.innerHTML=`<span class="vdx-nav__icon" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><span class="vdx-nav__label"></span><span class="vdx-nav__badge">${names.length}</span>`;$('.vdx-nav__label',link).textContent=title;
+  link.onclick=()=>{setActive(section.id);if(mobile())setNavigation(false);};$('#library-nav').append(link);
+  const searchText=(title+' '+section.textContent+' '+names.join(' ')).toLowerCase();
+  return {section,title,names,link,reference,searchText};
+});
+function setActive(id){records.forEach(r=>{const active=r.section.id===id;r.link.classList.toggle('vdx-nav__item--active',active);if(active)r.link.setAttribute('aria-current','location');else r.link.removeAttribute('aria-current');});}
+let scheduled=false;
+function updateActive(){scheduled=false;const visible=records.filter(r=>!r.section.hidden);const current=visible.filter(r=>r.section.getBoundingClientRect().top<140).at(-1)||visible[0];if(current)setActive(current.section.id);}
+window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(updateActive);}}, {passive:true});
+function filterLibrary(){
+ const query=$('#library-search').value.trim().toLowerCase();let count=0;const unique=new Set();
+ for(const r of records){const match=!query||r.searchText.includes(query);r.section.hidden=!match;r.link.hidden=!match;if(match){count++;r.names.forEach(n=>unique.add(n));} $$('[data-class-name]',r.section).forEach(b=>{b.hidden=Boolean(query)&&r.names.some(n=>('.'+n).includes(query))&&!('.'+b.dataset.className).includes(query)&&!r.title.toLowerCase().includes(query);});if(query)r.reference.open=true;}
+ $('#library-summary').textContent=`${count} sections · ${unique.size} classes`;
+ $('#no-results').hidden=count>0;$('#no-results-term').textContent=`No examples match “${$('#library-search').value.trim()}”. Try “button”, “policy”, or “--active”.`;updateActive();
+}
+$('#library-search').addEventListener('input',()=>{filterLibrary();window.scrollTo({top:0,behavior:'instant'});});
+$('#clear-search').onclick=()=>{$('#library-search').value='';filterLibrary();$('#library-search').focus();};
+async function copyClass(text){
+ try {if(!navigator.clipboard)throw new Error('Use fallback');await navigator.clipboard.writeText(text);notify('Copied '+text,'success');}
+ catch {const box=document.createElement('textarea');box.value=text;box.className='vdx-sr-only';document.body.append(box);box.select();let ok=false;try{ok=document.execCommand('copy');}catch{}box.remove();notify(ok?'Copied '+text:'Clipboard unavailable. Select and copy the class label manually.',ok?'success':'warning');}
+}
+$('#library-content').addEventListener('click',e=>{const b=e.target.closest('[data-class-name]');if(b)copyClass('.'+b.dataset.className);});
+filterLibrary();
+if(location.hash){const target=document.getElementById(location.hash.slice(1));if(target)requestAnimationFrame(()=>target.scrollIntoView());}
+</script></body></html>
