@@ -1,3 +1,4 @@
+```mermaid
 %%{{
   init: {{
     'theme': 'base',
@@ -900,3 +901,5 @@ erDiagram
     ProductAdministrator }o--|| PartyRoleInProduct : "extends"
     PartyRoleInAgreementSpecification }o--|| RoleSpecification : "extends"
     PartyRoleInBusinessEntityRelationshipSpecification }o--|| RoleSpecification : "extends"
+
+    ```
