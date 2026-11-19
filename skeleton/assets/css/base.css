@@ -1,0 +1,129 @@
+/* =============================================================================
+   VeriDex One — Base: reset, typography, accessibility utilities
+   Targets: WCAG 2.2 AA · Section 508 (Revised) · ADA Title III expectations
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--topbar-h) + var(--space-4)); /* SC 2.4.11 focus not obscured */
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+table { border-collapse: collapse; border-spacing: 0; }
+p, h1, h2, h3, h4, h5, h6, figure, blockquote, dl, dd { margin: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+
+/* ---------- Headings: Manrope, Rust (brand hierarchy p.31) ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-text-heading);
+  font-weight: var(--fw-bold);
+  text-wrap: balance;
+}
+.vx-display { font-size: var(--fs-display); line-height: var(--lh-display); font-weight: var(--fw-extrabold); }
+.vx-h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); }
+.vx-h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
+.vx-h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); font-weight: var(--fw-semibold); }
+.vx-overline {
+  font-family: var(--font-display);
+  font-size: var(--fs-overline);
+  line-height: var(--lh-overline);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-overline);
+}
+.vx-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+.vx-caption { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--color-text-muted); }
+.vx-muted { color: var(--color-text-muted); }
+.vx-mono { font-family: var(--font-mono); font-size: 0.875em; }
+.vx-num { font-variant-numeric: tabular-nums; }  /* money, counts, dates in tables */
+.vx-measure { max-width: 72ch; }                /* 45–75 chars/line (p.31) */
+
+a { color: var(--color-link); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--color-link-hover); text-decoration-thickness: 2px; }
+
+/* ---------- Focus: visible, ≥2px, ≥3:1 (WCAG 2.2 SC 2.4.7 / 2.4.13) ---------- */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+[tabindex="-1"]:focus-visible { outline: none; } /* programmatic focus targets (h1) */
+
+::selection { background: var(--color-selection-bg); color: var(--color-selection-text); }
+
+/* ---------- Accessibility utilities ---------- */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+.vx-skip {
+  position: absolute;
+  left: var(--space-4);
+  top: -100px;
+  z-index: calc(var(--z-toast) + 1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+.vx-skip:focus { top: var(--space-2); color: var(--color-on-primary); }
+
+/* Icons from the inline sprite */
+.vx-icon {
+  width: 20px; height: 20px;
+  flex: none;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vx-icon--sm { width: 16px; height: 16px; }
+.vx-icon--lg { width: 24px; height: 24px; }
+
+/* ---------- Windows High Contrast / forced colors ---------- */
+@media (forced-colors: active) {
+  .vx-btn, .vx-input, .vx-card, .vx-badge { border: 1px solid CanvasText; }
+  .vx-sk { background: GrayText; }
+  :focus-visible { outline: 2px solid Highlight; }
+}
+
+/* ---------- Print: policy docs, claim summaries, audit pages ---------- */
+@media print {
+  .vx-topbar, .vx-sidebar, .vx-footer, .vx-page-actions, .vx-actionbar,
+  .vx-toolbar, .vx-toasts, .vx-skip, [data-print="hide"] { display: none !important; }
+  .vx-app { display: block !important; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
+  .vx-card { box-shadow: none; break-inside: avoid; }
+}

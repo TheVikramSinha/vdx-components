@@ -1,0 +1,58 @@
+/* =============================================================================
+   VeriDex One — authentication screens (sign in, MFA, reset, SSO handoff)
+   ========================================================================== */
+.vx-auth { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: 100vh; }
+
+.vx-auth__brand {
+  position: relative; overflow: hidden;
+  background: var(--color-gradient-brand);
+  display: flex; align-items: flex-end;
+  padding: var(--space-16) var(--space-12);
+}
+.vx-auth__brand-inner { position: relative; z-index: 1; display: grid; gap: var(--space-4); max-width: 520px; }
+.vx-auth__brand .vx-display { font-size: clamp(2.25rem, 3.5vw, 3.5rem); line-height: 1.12; }
+/* Halftone dot field (p.36) — one per layout, partly cropped, never behind body text */
+.vx-auth__dots {
+  position: absolute; right: -120px; top: -120px; width: 520px; height: 520px;
+  background-image: radial-gradient(circle, var(--color-halftone) 1.5px, transparent 2px);
+  background-size: 18px 18px;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0%, transparent 70%);
+  mask-image: radial-gradient(circle at center, #000 0%, transparent 70%);
+}
+
+.vx-auth__main { display: grid; place-items: center; padding: var(--space-8) var(--space-6); background: var(--color-bg); }
+.vx-auth__card { width: 100%; max-width: 420px; display: grid; gap: var(--space-5); }
+.vx-auth__divider { display: flex; align-items: center; gap: var(--space-3); color: var(--color-text-muted); font-size: var(--fs-small); }
+.vx-auth__divider::before, .vx-auth__divider::after { content: ""; flex: 1; height: 1px; background: var(--color-border); }
+.vx-auth__notice { border-top: 1px solid var(--color-border); padding-top: var(--space-4); }
+.vx-auth__legal { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.vx-auth__legal a { color: var(--color-text-muted); }
+
+/* brand lockup on auth */
+.vx-brand { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; }
+.vx-brand__word { font-family: var(--font-display); font-weight: var(--fw-extrabold); }
+.vx-brand__word .veri { color: var(--color-wordmark-veri); }
+.vx-brand__word .dex { color: var(--color-wordmark-dex); }
+.vx-stack { display: grid; gap: var(--space-6); }
+.vx-stack--sm { gap: var(--space-4); }
+.vx-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.vx-row--between { justify-content: space-between; }
+.vx-input-wrap { position: relative; }
+
+@media (max-width: 1023px) {
+  .vx-auth { grid-template-columns: 1fr; }
+  .vx-auth__brand { display: none; }
+}
+.vx-auth__overline { color: var(--color-on-gradient-muted); }
+.vx-auth__headline { color: var(--color-on-gradient); }
+
+/* Alignment: full-width actions, one control height, consistent checkbox rows */
+.vx-auth__card form .vx-btn--primary,
+.vx-auth__card form .vx-btn--secondary { width: 100%; }
+.vx-auth__logo { margin-bottom: var(--space-2); }
+.vx-auth__logo .vx-brand__word { font-size: 1.375rem; }
+.vx-check { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-small); min-height: 24px; }
+.vx-input--with-action { padding-right: 76px; }
+.vx-input-action { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); }
+.vx-input--otp { font-family: var(--font-mono); letter-spacing: .4em; font-size: 1.25rem; }
+.vx-auth__card form .vx-btn--link { width: auto; justify-self: start; }
