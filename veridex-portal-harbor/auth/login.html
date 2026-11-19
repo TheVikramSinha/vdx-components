@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en-US" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Sign in · VeriDex One</title>
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/theme-harbor.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/primitives.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+<body>
+  <a class="vx-skip" href="#auth-main">Skip to sign in</a>
+
+  <div class="vx-auth">
+    <!-- Brand panel: gradient = "big brand moment" (p.25); white logo on gradient (p.16) -->
+    <section class="vx-auth__brand" aria-hidden="true">
+      <div class="vx-auth__brand-inner">
+        <p class="vx-overline vx-auth__overline">Trusted intelligence, insurance transformed</p>
+        <p class="vx-display vx-auth__headline">Every policy and claim, explained.</p>
+      </div>
+      <div class="vx-auth__dots"></div>
+    </section>
+
+    <main class="vx-auth__main" id="auth-main">
+      <div class="vx-auth__card">
+        <a class="vx-brand vx-auth__logo" href="../index.html">
+          <img src="../assets/img/logomark.svg" alt="" width="36" height="36">
+          <span class="vx-brand__word"><span class="veri">Veri</span><span class="dex">Dex</span></span>
+        </a>
+
+        <div class="vx-alert vx-alert--warning" id="auth-reason" role="status" hidden>
+          <svg class="vx-icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+          <p id="auth-reason-text"></p>
+        </div>
+
+        <!-- Step 1: identifier-first (enables SSO domain discovery) -->
+        <form id="step-email" class="vx-stack vx-stack--sm" novalidate>
+          <h1 class="vx-h3" tabindex="-1">Sign in to VeriDex One</h1>
+          <p class="vx-muted">Use your work email. If your organization uses single sign-on, we’ll redirect you.</p>
+          <div class="vx-field">
+            <label class="vx-label" for="email">Work email</label>
+            <input class="vx-input" id="email" name="username" type="email" autocomplete="username" inputmode="email" required spellcheck="false">
+            <span class="vx-error-msg" id="email-error" hidden></span>
+          </div>
+          <label class="vx-check"><input type="checkbox" id="remember"> Remember my email on this device</label>
+          <button class="vx-btn vx-btn--primary" type="submit">Continue</button>
+          <div class="vx-auth__divider"><span>or</span></div>
+          <button class="vx-btn vx-btn--secondary" type="button" id="sso-btn">Sign in with single sign-on (SSO)</button>
+        </form>
+
+        <!-- Step 2: password -->
+        <form id="step-password" class="vx-stack vx-stack--sm" novalidate hidden>
+          <h1 class="vx-h3" tabindex="-1">Enter your password</h1>
+          <p class="vx-muted">Signing in as <strong id="who"></strong> · <button class="vx-btn vx-btn--link" type="button" data-back="step-email">Change</button></p>
+          <div class="vx-field">
+            <div class="vx-row vx-row--between"><label class="vx-label" for="password">Password</label><a href="#" class="vx-caption">Forgot password?</a></div>
+            <div class="vx-input-wrap">
+              <input class="vx-input vx-input--with-action" id="password" name="password" type="password" autocomplete="current-password" required>
+              <button class="vx-btn vx-btn--ghost vx-btn--sm vx-input-action" type="button" id="toggle-pw" aria-pressed="false">Show</button>
+            </div>
+            <span class="vx-error-msg" id="password-error" hidden></span>
+          </div>
+          <button class="vx-btn vx-btn--primary" type="submit">Sign in</button>
+        </form>
+
+        <!-- Step 3: MFA (NIST 800-63B AAL2) -->
+        <form id="step-mfa" class="vx-stack vx-stack--sm" novalidate hidden>
+          <h1 class="vx-h3" tabindex="-1">Verify it’s you</h1>
+          <p class="vx-muted">Enter the 6-digit code from your authenticator app.</p>
+          <div class="vx-field">
+            <label class="vx-label" for="otp">Verification code</label>
+            <input class="vx-input vx-input--otp" id="otp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="\d{6}" maxlength="6" required>
+            <span class="vx-error-msg" id="otp-error" hidden></span>
+          </div>
+          <label class="vx-check"><input type="checkbox"> Trust this device for 30 days</label>
+          <button class="vx-btn vx-btn--primary" type="submit">Verify</button>
+          <button class="vx-btn vx-btn--link" type="button">Use another method</button>
+        </form>
+
+        <!-- System use notification (NIST SP 800-53 AC-8) -->
+        <p class="vx-caption vx-auth__notice">
+          Authorized use only. This system contains confidential insurance, financial and personal information.
+          Activity is monitored and logged. Unauthorized access is prohibited and may be subject to civil and criminal penalties.
+        </p>
+
+        <nav aria-label="Legal" class="vx-caption vx-auth__legal">
+          <a href="../index.html#/legal/privacy">Privacy Policy</a>
+          <a href="../index.html#/legal/terms">Terms of Use</a>
+          <a href="../index.html#/legal/accessibility">Accessibility</a>
+          <a href="../index.html#/help">Help</a>
+        </nav>
+      </div>
+    </main>
+  </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  </svg>
+  <div class="sr-only" id="vx-live-polite" aria-live="polite"></div>
+  <script src="../assets/js/core/utils.js"></script>
+  <script src="../assets/js/auth/login.js"></script>
+</body>
+</html>

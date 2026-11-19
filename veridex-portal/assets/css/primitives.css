@@ -1,0 +1,352 @@
+/* =============================================================================
+   VeriDex One — Shell primitives
+   ONLY the generic building blocks the shell and page templates need.
+   Module-specific components (rating grids, claim reserves, etc.) do NOT go here:
+   put them in assets/css/modules/<module>.css.
+   ========================================================================== */
+
+/* ---------- Buttons (p.31: Manrope Bold on Rust, 10px corners) ---------- */
+.vx-btn {
+  --_bg: transparent; --_fg: var(--color-text); --_bd: transparent;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: var(--control-h);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--_bd);
+  border-radius: var(--radius);
+  background: var(--_bg); color: var(--_fg);
+  font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--fs-small);
+  line-height: 1; white-space: nowrap; text-decoration: none;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.vx-btn:hover { text-decoration: none; color: var(--_fg); }
+.vx-btn--primary { --_bg: var(--color-primary); --_fg: var(--color-on-primary); }
+.vx-btn--primary:hover { --_bg: var(--color-primary-hover); }
+.vx-btn--primary:active { --_bg: var(--color-primary-active); }
+.vx-btn--secondary { --_bg: var(--color-surface); --_fg: var(--color-text-heading); --_bd: var(--color-border-strong); }
+.vx-btn--secondary:hover { --_bg: var(--color-surface-alt); }
+.vx-btn--ghost { --_fg: var(--color-text); }
+.vx-btn--ghost:hover { --_bg: var(--color-surface-alt); }
+.vx-btn--danger { --_bg: var(--color-danger); --_fg: var(--color-on-danger); }
+.vx-btn--link { --_fg: var(--color-link); padding: 0; min-height: auto; text-decoration: underline; }
+.vx-btn--sm { min-height: var(--control-h-sm); padding: 0 var(--space-3); }
+.vx-btn--sm .vx-icon { width: 16px; height: 16px; }
+.vx-btn--icon { width: var(--control-h); padding: 0; }
+.vx-btn--icon.vx-btn--sm { width: var(--control-h-sm); }
+.vx-btn:disabled, .vx-btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+.vx-btn[aria-busy="true"] { position: relative; color: transparent; }
+.vx-btn[aria-busy="true"]::after {
+  content: ""; position: absolute; width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--_fg); border-right-color: transparent; animation: vx-spin 0.7s linear infinite;
+}
+.vx-btn-group { display: inline-flex; }
+.vx-btn-group > .vx-btn { border-radius: 0; }
+.vx-btn-group > .vx-btn:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+.vx-btn-group > .vx-btn:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+.vx-btn-group > .vx-btn + .vx-btn { margin-left: -1px; }
+.vx-btn-group > .vx-btn[aria-pressed="true"] { --_bg: var(--color-primary-subtle); --_fg: var(--color-text-heading); }
+
+/* ---------- Form fields (label → hint → error → control order, USWDS pattern) ---------- */
+.vx-field { display: grid; gap: var(--space-1); align-content: start; }
+.vx-label { font-weight: var(--fw-semibold); font-size: var(--fs-ui); }
+.vx-req { color: var(--color-danger); margin-left: 2px; }
+.vx-label .vx-opt { color: var(--color-text-muted); font-weight: var(--fw-regular); }
+.vx-hint { font-size: var(--fs-small); color: var(--color-text-muted); }
+.vx-error-msg { font-size: var(--fs-small); color: var(--color-danger); font-weight: var(--fw-semibold); display: flex; gap: var(--space-1); align-items: center; }
+.vx-input, .vx-select, .vx-textarea {
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--fs-ui);
+}
+.vx-textarea { padding: var(--space-2) var(--space-3); min-height: 96px; resize: vertical; }
+.vx-select--sm { width: auto; min-height: var(--control-h-sm); }
+input[type="checkbox"], input[type="radio"] { width: 16px; height: 16px; margin: 0; flex: none; vertical-align: middle; accent-color: var(--color-primary); }
+.vx-input::placeholder { color: var(--color-text-muted); opacity: 0.8; }
+.vx-input:hover, .vx-select:hover, .vx-textarea:hover { border-color: var(--color-text-muted); }
+.vx-input:focus-visible, .vx-select:focus-visible, .vx-textarea:focus-visible { outline-offset: 0; border-color: var(--color-focus); }
+/* Invalid state never shifts layout: inset ring instead of thicker border, bar drawn outside the field */
+.vx-field[data-invalid] .vx-input, .vx-field[data-invalid] .vx-select, .vx-field[data-invalid] .vx-textarea,
+.vx-input[aria-invalid="true"] { border-color: var(--color-danger); box-shadow: inset 0 0 0 1px var(--color-danger); }
+.vx-field { position: relative; }
+.vx-field[data-invalid]::before { content: ""; position: absolute; left: -12px; top: 0; bottom: 0; width: 4px; border-radius: 2px; background: var(--color-danger); }
+.vx-input:disabled, .vx-input[readonly] { background: var(--color-surface-sunken); }
+.vx-input--search { padding-left: 36px; }
+.vx-input-wrap { position: relative; }
+.vx-input-wrap > .vx-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+
+fieldset.vx-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: var(--space-4); }
+fieldset.vx-fieldset > legend { padding: 0; margin-bottom: var(--space-2); font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--fs-section); color: var(--color-text-heading); }
+.vx-form-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-5) var(--space-4); align-items: start; }
+/* Field order: label → control → error → hint. Controls in a row line up regardless of hint/error. */
+.vx-field > .vx-label { min-height: var(--lh-ui); }
+.vx-col-12 { grid-column: span 12; } .vx-col-8 { grid-column: span 8; } .vx-col-6 { grid-column: span 6; }
+.vx-col-4 { grid-column: span 4; } .vx-col-3 { grid-column: span 3; }
+@media (max-width: 767px) { .vx-form-grid > [class*="vx-col-"] { grid-column: span 12; } }
+
+/* ---------- Card / panel ---------- */
+.vx-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  min-width: 0;
+}
+.vx-card--flat { box-shadow: none; }
+.vx-card--alt { background: var(--color-surface-alt); }
+.vx-card__header {
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+.vx-card__title { font-size: var(--fs-card-title); line-height: var(--lh-card-title); font-weight: var(--fw-bold); flex: 1; }
+.vx-card__body { padding: var(--space-5); }
+.vx-card__body--flush { padding: 0; }
+.vx-card__footer { padding: var(--space-3) var(--space-5); border-top: 1px solid var(--color-border); }
+
+/* ---------- Badge / status chip (colour + text, never colour alone — SC 1.4.1) ---------- */
+.vx-badge {
+  --_bg: var(--color-neutral-subtle); --_fg: var(--color-text);
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--_bg); color: var(--_fg);
+  font-size: var(--fs-caption); line-height: 1.25rem; font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+.vx-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.vx-badge--success { --_bg: var(--color-success-subtle); --_fg: var(--color-success); }
+.vx-badge--info    { --_bg: var(--color-info-subtle);    --_fg: var(--color-info); }
+.vx-badge--warning { --_bg: var(--color-warning-subtle); --_fg: var(--color-warning); }
+.vx-badge--danger  { --_bg: var(--color-danger-subtle);  --_fg: var(--color-danger); }
+.vx-badge--brand   { --_bg: var(--color-primary-subtle); --_fg: var(--color-text-heading); }
+.vx-badge--env { --_bg: var(--color-env-bg); --_fg: var(--color-env-text); font-family: var(--font-display); font-weight: var(--fw-bold); letter-spacing: .04em; }
+.vx-badge--env::before { display: none; }
+
+.vx-count {
+  min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary); color: var(--color-on-primary);
+  font-size: 11px; font-weight: var(--fw-bold); line-height: 18px; text-align: center;
+}
+.vx-icon-btn-wrap { position: relative; }
+.vx-icon-btn-wrap .vx-count { position: absolute; top: 2px; right: 2px; pointer-events: none; }
+
+/* ---------- Breadcrumbs ---------- */
+.vx-breadcrumb ol { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); list-style: none; margin: 0; padding: 0; font-size: var(--fs-small); }
+.vx-breadcrumb li { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-text-muted); }
+.vx-breadcrumb li + li::before { content: "/"; color: var(--color-border-strong); margin-right: var(--space-1); }
+.vx-breadcrumb a { color: var(--color-text-muted); text-decoration: none; }
+.vx-breadcrumb a:hover { color: var(--color-link-hover); text-decoration: underline; }
+.vx-breadcrumb [aria-current="page"] { color: var(--color-text); font-weight: var(--fw-semibold); }
+
+/* ---------- Tabs (WAI-ARIA tabs pattern; keyboard handled in shell.js) ---------- */
+.vx-tabs { display: flex; gap: var(--space-1); border-bottom: 1px solid var(--color-border); overflow-x: auto; scrollbar-width: none; }
+.vx-tab {
+  position: relative;
+  padding: var(--space-3) var(--space-4);
+  border: 0; background: none;
+  font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--fs-small);
+  color: var(--color-text-muted); white-space: nowrap;
+}
+.vx-tab:hover { color: var(--color-text); }
+.vx-tab[aria-selected="true"] { color: var(--color-text-heading); }
+.vx-tab[aria-selected="true"]::after { content: ""; position: absolute; left: var(--space-3); right: var(--space-3); bottom: -1px; height: 3px; border-radius: 3px 3px 0 0; background: var(--color-primary); }
+.vx-tabpanel { padding-top: var(--space-6); }
+
+/* ---------- Toolbar (list pages) ---------- */
+.vx-toolbar { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border); }
+.vx-toolbar__search { flex: 1 1 280px; max-width: 420px; }
+.vx-toolbar--filters { gap: var(--space-4); align-items: flex-start; }
+.vx-toolbar__filter { flex: 1 1 180px; }
+.vx-bulkbar { display: flex; gap: var(--space-3); align-items: center; min-height: 48px; padding: var(--space-2) var(--space-4); background: var(--color-primary-subtle); border-bottom: 1px solid var(--color-border); font-weight: var(--fw-semibold); }
+
+/* ---------- Data table shell ---------- */
+.vx-table-wrap { overflow: auto; max-width: 100%; }
+.vx-table { width: 100%; font-size: var(--fs-ui); }
+.vx-table caption { text-align: left; }
+.vx-table th, .vx-table td { height: var(--row-h); padding: 0 var(--cell-px); text-align: left; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
+.vx-table thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--color-surface-alt);
+  font-family: var(--font-display); font-size: var(--fs-caption); font-weight: var(--fw-bold);
+  letter-spacing: .02em; color: var(--color-text);
+}
+.vx-table th[aria-sort] button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+.vx-table th[aria-sort] button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.vx-table tbody tr:hover { background: color-mix(in srgb, var(--color-surface-alt) 60%, transparent); }
+.vx-table .is-num { text-align: right; font-variant-numeric: tabular-nums; }
+.vx-table .is-check { width: 44px; }
+.vx-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); font-size: var(--fs-small); color: var(--color-text-muted); }
+
+/* ---------- Stepper (wizards) ---------- */
+.vx-stepper { display: flex; gap: var(--space-2); list-style: none; margin: 0; padding: 0; counter-reset: step; overflow-x: auto; }
+.vx-stepper li { counter-increment: step; flex: 1 1 0; min-width: 120px; display: grid; gap: var(--space-2); font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--color-text-muted); }
+.vx-stepper li::before { content: ""; height: 4px; border-radius: 4px; background: var(--color-border); }
+.vx-stepper li > span::before { content: counter(step) ". "; }
+.vx-stepper li[data-state="done"]::before { background: var(--color-success); }
+.vx-stepper li[aria-current="step"] { color: var(--color-text-heading); }
+.vx-stepper li[aria-current="step"]::before { background: var(--color-primary); }
+
+/* ---------- Alerts / error summary ---------- */
+.vx-alert {
+  --_c: var(--color-info); --_bg: var(--color-info-subtle);
+  display: flex; gap: var(--space-3); padding: var(--space-4);
+  border-left: 4px solid var(--_c); border-radius: var(--radius-sm);
+  background: var(--_bg);
+}
+.vx-alert > .vx-icon { color: var(--_c); margin-top: 2px; }
+.vx-alert__title { font-family: var(--font-display); font-weight: var(--fw-bold); color: var(--color-text); }
+.vx-alert--success { --_c: var(--color-success); --_bg: var(--color-success-subtle); }
+.vx-alert--warning { --_c: var(--color-warning); --_bg: var(--color-warning-subtle); }
+.vx-alert--danger  { --_c: var(--color-danger);  --_bg: var(--color-danger-subtle); }
+.vx-alert ul { margin: var(--space-1) 0 0; padding-left: var(--space-5); }
+
+/* ---------- Empty / system states ---------- */
+.vx-empty { display: grid; justify-items: center; text-align: center; gap: var(--space-3); padding: var(--space-12) var(--space-6); }
+.vx-empty__art {
+  width: 72px; height: 72px; border-radius: var(--radius);
+  display: grid; place-items: center;
+  background: var(--color-primary-subtle); color: var(--color-text-heading);
+}
+.vx-empty__art .vx-icon { width: 32px; height: 32px; }
+.vx-system { min-height: calc(100vh - var(--topbar-h) - 120px); display: grid; place-items: center; }
+.vx-system__code { font-family: var(--font-display); font-weight: var(--fw-extrabold); font-size: var(--fs-display); line-height: var(--lh-display); background: var(--color-gradient-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- Key/value pairs (record facts) ---------- */
+.vx-kv { display: grid; gap: 2px; min-width: 0; }
+.vx-kv dt { font-size: var(--fs-caption); color: var(--color-text-muted); font-weight: var(--fw-semibold); }
+.vx-kv dd { font-weight: var(--fw-semibold); overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Avatar ---------- */
+.vx-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: inline-grid; place-items: center; flex: none;
+  background: var(--color-gradient-accent); color: var(--color-on-gradient);
+  font-family: var(--font-display); font-size: 12px; font-weight: var(--fw-extrabold);
+}
+
+/* ---------- Keyboard hint ---------- */
+.vx-kbd { font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border: 1px solid var(--color-border-strong); border-bottom-width: 2px; border-radius: var(--radius-xs); background: var(--color-surface); color: var(--color-text-muted); }
+
+/* ---------- Popover menu (disclosure pattern) ---------- */
+.vx-popover-anchor { position: relative; }
+.vx-menu {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: var(--z-popover);
+  min-width: 240px; max-width: 360px;
+  padding: var(--space-2);
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius); box-shadow: var(--shadow-3);
+}
+.vx-menu__item {
+  display: flex; align-items: center; gap: var(--space-3); width: 100%;
+  padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-sm);
+  background: none; text-align: left; text-decoration: none; color: var(--color-text);
+  font-size: var(--fs-ui);
+}
+.vx-menu__item:hover, .vx-menu__item:focus-visible { background: var(--color-surface-alt); color: var(--color-text); text-decoration: none; }
+.vx-menu__sep { height: 1px; margin: var(--space-2) 0; background: var(--color-border); border: 0; }
+.vx-menu__head { padding: var(--space-2) var(--space-3); }
+
+/* ---------- Tenant switcher ---------- */
+.vx-tenant {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  max-width: 320px; min-height: var(--topbar-control-h);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-surface-alt);
+  font-size: var(--fs-small); font-weight: var(--fw-semibold);
+}
+.vx-tenant__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vx-tenant__type { font-size: 11px; font-weight: var(--fw-bold); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .06em; }
+
+/* ---------- Global search trigger ---------- */
+.vx-search-trigger {
+  display: flex; align-items: center; gap: var(--space-2);
+  width: min(520px, 100%); min-height: var(--topbar-control-h);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-bg); color: var(--color-text-muted);
+  font-size: var(--fs-small); text-align: left;
+}
+.vx-search-trigger:hover { border-color: var(--color-border-strong); }
+.vx-search-trigger span { flex: 1; }
+
+/* ---------- Dialog (native <dialog>) ---------- */
+.vx-dialog {
+  width: min(560px, calc(100vw - 32px));
+  padding: 0; border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-surface); color: var(--color-text);
+  box-shadow: var(--shadow-3);
+}
+.vx-dialog::backdrop { background: var(--color-overlay); }
+.vx-dialog--top { margin-top: 12vh; }
+.vx-dialog__header { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-border); }
+.vx-dialog__title { flex: 1; font-size: var(--fs-section); }
+.vx-dialog__body { padding: var(--space-5); }
+.vx-dialog__footer { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-3) var(--space-5); border-top: 1px solid var(--color-border); }
+
+.vx-palette__input { border: 0; border-bottom: 1px solid var(--color-border); border-radius: 0; min-height: 52px; font-size: var(--fs-body); padding-left: 44px; }
+.vx-palette__list { max-height: 50vh; overflow: auto; padding: var(--space-2); margin: 0; list-style: none; }
+.vx-palette__list [aria-selected="true"] { background: var(--color-primary-subtle); }
+
+/* ---------- Toasts ---------- */
+.vx-toasts { position: fixed; right: var(--space-4); bottom: var(--space-4); z-index: var(--z-toast); display: grid; gap: var(--space-2); width: min(400px, calc(100vw - 32px)); }
+.vx-toast {
+  display: flex; gap: var(--space-3); align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-inverse-bg); color: var(--color-inverse-text);
+  border-radius: var(--radius); box-shadow: var(--shadow-3);
+  animation: vx-toast-in var(--dur-slow) var(--ease);
+}
+.vx-toast__msg { flex: 1; font-size: var(--fs-ui); }
+.vx-toast .vx-btn { --_fg: var(--color-inverse-text); }
+
+/* ---------- Skeleton screens ----------
+   .vx-sk is a placeholder for a named SLOT. Templates render these until a page
+   supplies real content for the slot. data-slot labels are shown in dev mode. */
+.vx-sk {
+  position: relative;
+  min-height: var(--h, 16px);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--color-skeleton) 0%, var(--color-skeleton-shine) 40%, var(--color-skeleton) 80%);
+  background-size: 200% 100%;
+  animation: vx-shimmer 1.6s ease-in-out infinite;
+}
+.vx-sk--text { --h: 12px; border-radius: var(--radius-xs); }
+.vx-sk--control { min-height: var(--control-h); border-radius: var(--radius); }
+.vx-sk--title { --h: 20px; width: 40%; }
+.vx-sk--circle { border-radius: 50%; width: var(--h); }
+.vx-sk--block { --h: 160px; border-radius: var(--radius); }
+.vx-sk-lines { display: grid; gap: var(--space-2); }
+.vx-sk-lines > .vx-sk:nth-child(3n) { width: 72%; }
+.vx-sk-lines > .vx-sk:nth-child(3n+2) { width: 88%; }
+[data-slot-labels="on"] .vx-slot { outline: 1px dashed var(--color-dev-outline); outline-offset: 4px; position: relative; }
+[data-slot-labels="on"] .vx-slot::after {
+  content: attr(data-slot); position: absolute; top: -10px; left: 8px; z-index: 2;
+  padding: 0 6px; border-radius: var(--radius-xs);
+  background: var(--color-env-bg); color: var(--color-env-text);
+  font: 700 10px/16px var(--font-mono); letter-spacing: .02em;
+  pointer-events: none;
+}
+
+/* ---------- Slot wrappers ----------
+   A slot wrapper must not break the layout of its parent. Use a modifier
+   when the slot sits inside a flex row. */
+.vx-slot { min-width: 0; }
+.vx-slot--inline { display: inline-flex; align-items: center; }
+.vx-slot--row { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.vx-slot--fill { flex: 1 1 auto; }
+
+/* Top bar: every control shares one height */
+.vx-topbar .vx-btn { min-height: var(--topbar-control-h); }
+.vx-topbar .vx-btn--icon { width: var(--topbar-control-h); }
+
+@keyframes vx-shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+@keyframes vx-spin { to { transform: rotate(360deg); } }
+@keyframes vx-toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .vx-sk { animation: none; } }

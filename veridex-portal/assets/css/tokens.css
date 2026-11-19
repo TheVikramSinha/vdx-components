@@ -1,0 +1,265 @@
+/* =============================================================================
+   VeriDex One — Design Tokens
+   Source of truth: VeriDex Brand Guidelines v1.0
+   Rule: components read SEMANTIC tokens (--color-*, --space-*), never raw brand
+   tokens (--vx-*). Brand tokens only feed semantic tokens. This keeps themes,
+   white-label tenants and dark mode a token swap, not a refactor.
+   ========================================================================== */
+
+:root {
+  /* ---------- Brand: primary (Brand guide p.22) ---------- */
+  --vx-rust: #903018;
+  --vx-rust-80: #A65946;
+  --vx-rust-60: #BC8374;
+  --vx-rust-40: #D3ACA3;
+  --vx-rust-20: #E9D6D1;
+  --vx-coral: #EB854A;
+  --vx-coral-80: #EF9D6E;
+  --vx-coral-60: #F3B692;
+  --vx-coral-40: #F7CEB7;
+  --vx-coral-20: #FBE7DB;
+  --vx-ink: #3F1C09;
+  --vx-ember: #C54A1E;
+
+  /* ---------- Brand: secondary (p.23) — data / tech / insight signals ---------- */
+  --vx-teal: #367467;
+  --vx-teal-80: #5E9085;
+  --vx-teal-60: #86ACA4;
+  --vx-teal-40: #AFC7C2;
+  --vx-teal-20: #D7E3E1;
+  --vx-steel: #44768C;
+  --vx-steel-80: #6991A3;
+  --vx-steel-60: #8FADBA;
+  --vx-steel-40: #B4C8D1;
+  --vx-steel-20: #DAE4E8;
+  --vx-ochre: #B97621;
+  --vx-ochre-80: #C7914D;
+  --vx-ochre-60: #D5AD7A;
+  --vx-ochre-40: #E3C8A6;
+  --vx-ochre-20: #F1E4D3;
+
+  /* ---------- Brand: neutrals ---------- */
+  --vx-ivory: #FDF9EE;
+  --vx-beige: #F9ECDE;
+  --vx-warm-grey: #E4DCD3;
+  --vx-neutral-grey: #A4A7AB;   /* 2.3:1 on ivory — icons/large text ONLY */
+  --vx-white: #FFFFFF;
+
+  /* ---------- Brand: gradients (p.25) — big brand moments only ---------- */
+  --vx-gradient-brand: linear-gradient(90deg, #903018 0%, #C54A1E 50%, #EB854A 100%);
+  --vx-gradient-warm: linear-gradient(90deg, #C54A1E 0%, #EB854A 100%);
+  --vx-gradient-neutral: linear-gradient(180deg, #FDF9EE 0%, #F9ECDE 100%);
+
+  /* =========================================================================
+     SEMANTIC TOKENS — what components consume
+     Colour ratio rule (p.26): 60% neutral · 25% rust · 10% coral · 5% secondary
+     ======================================================================= */
+  --color-bg: var(--vx-ivory);
+  --color-surface: var(--vx-white);
+  --color-surface-alt: var(--vx-beige);
+  --color-surface-sunken: #F6EFE2;
+  --color-border: var(--vx-warm-grey);
+  --color-border-strong: #CBBFB2;
+
+  --color-text: var(--vx-ink);            /* 14.5:1 on ivory — all text */
+  --color-text-muted: #6B5243;            /* ≥ 6.5:1 on ivory — secondary text */
+  --color-text-heading: var(--vx-rust);   /* 7.6:1 on ivory — headlines */
+  --color-text-overline: var(--vx-ember);
+  --color-text-on-dark: var(--vx-white);
+  --color-link: var(--vx-rust);
+  --color-link-hover: var(--vx-ember);
+
+  --color-primary: var(--vx-rust);        /* White on Rust 8.0:1 — buttons */
+  --color-primary-hover: #7A2814;
+  --color-primary-active: #64200F;
+  --color-on-primary: var(--vx-white);
+  --color-primary-subtle: var(--vx-rust-20);
+
+  --color-accent: var(--vx-coral);        /* NEVER as text on light (2.5:1) */
+  --color-accent-subtle: var(--vx-coral-20);
+  --color-on-accent: var(--vx-ink);       /* Ink on Coral 5.8:1 */
+
+  --color-focus: var(--vx-steel);         /* WCAG 2.2 SC 2.4.11/2.4.13 — ≥3:1 */
+
+  /* Status. Brand has no "danger" red; an accessible red is added because
+     error states must never share the primary (Rust) action colour. */
+  --color-success: var(--vx-teal);
+  --color-success-subtle: var(--vx-teal-20);
+  --color-info: var(--vx-steel);
+  --color-info-subtle: var(--vx-steel-20);
+  --color-warning: #8A5510;               /* darkened ochre for 4.5:1 text */
+  --color-warning-subtle: var(--vx-ochre-20);
+  --color-danger: #B42318;
+  --color-danger-subtle: #FBE4E1;
+  --color-neutral: #6B5243;
+  --color-neutral-subtle: var(--vx-warm-grey);
+
+  /* Data viz series (p.24: 100/80 emphasis, 60 secondary series) */
+  --color-series-1: var(--vx-rust);
+  --color-series-2: var(--vx-teal);
+  --color-series-3: var(--vx-steel);
+  --color-series-4: var(--vx-ochre);
+  --color-series-5: var(--vx-coral);
+  --color-series-6: var(--vx-rust-60);
+
+  /* Skeleton loader */
+  --color-skeleton: #EFE6DA;
+  --color-skeleton-shine: #F8F2E9;
+
+  /* Brand surfaces, inverse, overlays, chrome */
+  --color-gradient-brand: var(--vx-gradient-brand);
+  --color-gradient-accent: var(--vx-gradient-warm);
+  --color-on-gradient: #FFFFFF;
+  --color-on-gradient-muted: var(--vx-coral-20);
+  --color-halftone: rgba(253, 249, 238, 0.35);
+  --color-inverse-bg: var(--vx-ink);
+  --color-inverse-text: #FFFFFF;
+  --color-overlay: rgba(29, 13, 4, 0.45);
+  --color-selection-bg: var(--vx-coral-40);
+  --color-selection-text: var(--vx-ink);
+  --color-on-danger: #FFFFFF;
+  --color-env-bg: var(--vx-ochre-20);
+  --color-env-text: #6E430C;
+  --color-env-stripe: var(--vx-ochre);
+  --color-dev-outline: var(--vx-ochre-60);
+  /* Wordmark is two-tone always (brand p.13) — Ink + Ember */
+  --color-wordmark-veri: var(--vx-ink);
+  --color-wordmark-dex: var(--vx-ember);
+
+  /* ---------- Typography (p.29–31) ---------- */
+  --font-display: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Brand (marketing) scale — use on auth, empty states, hero moments */
+  --fs-display: 3.5rem;   --lh-display: 4rem;    /* 56/64 Manrope 800 */
+  --fs-h1: 2.5rem;        --lh-h1: 3rem;         /* 40/48 Manrope 700 */
+  --fs-h2: 2rem;          --lh-h2: 2.5rem;       /* 32/40 Manrope 700 */
+  --fs-h3: 1.5rem;        --lh-h3: 2rem;         /* 24/32 Manrope 600 */
+  --fs-overline: 0.875rem; --lh-overline: 1.25rem; /* 14/20 caps */
+  --fs-body-lg: 1.125rem; --lh-body-lg: 1.75rem; /* 18/28 */
+  --fs-body: 1rem;        --lh-body: 1.5rem;     /* 16/24 */
+  --fs-caption: 0.8125rem; --lh-caption: 1.125rem; /* 13/18 */
+
+  /* Application (product UI) scale — denser, for working screens */
+  --fs-page-title: 1.75rem;  --lh-page-title: 2.25rem;  /* 28/36 */
+  --fs-section: 1.25rem;     --lh-section: 1.75rem;     /* 20/28 */
+  --fs-card-title: 1rem;     --lh-card-title: 1.5rem;   /* 16/24 Manrope 700 */
+  --fs-ui: 0.9375rem;        --lh-ui: 1.375rem;         /* 15/22 controls, tables */
+  --fs-small: 0.875rem;      --lh-small: 1.25rem;       /* 14/20 */
+  --fs-kpi: 2rem;            --lh-kpi: 2.5rem;          /* big numbers, Manrope 800 */
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --tracking-overline: 0.08em;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4 */
+  --space-2: 0.5rem;   /* 8 */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.25rem;  /* 20 */
+  --space-6: 1.5rem;   /* 24 */
+  --space-8: 2rem;     /* 32 */
+  --space-10: 2.5rem;  /* 40 */
+  --space-12: 3rem;    /* 48 */
+  --space-16: 4rem;    /* 64 */
+
+  /* ---------- Shape (p.31/33: 10px corners) ---------- */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-xs: 4px;
+  --radius-pill: 999px;
+
+  /* ---------- Elevation (warm, Ink-tinted) ---------- */
+  --shadow-1: 0 1px 2px rgba(63, 28, 9, 0.06), 0 1px 3px rgba(63, 28, 9, 0.08);
+  --shadow-2: 0 4px 8px rgba(63, 28, 9, 0.06), 0 2px 4px rgba(63, 28, 9, 0.06);
+  --shadow-3: 0 12px 32px rgba(63, 28, 9, 0.14), 0 4px 8px rgba(63, 28, 9, 0.06);
+
+  /* ---------- Layout ---------- */
+  --topbar-h: 56px;
+  --sidebar-w: 264px;
+  --sidebar-w-collapsed: 72px;
+  --content-max: 1440px;
+  --form-max: 880px;
+  --rail-w: 340px;
+  --gutter: var(--space-8);
+
+  /* ---------- Density (data-density on <html>) ---------- */
+  --control-h: 40px;
+  --control-h-sm: 32px;
+  --topbar-control-h: 36px;
+  --row-h: 48px;
+  --cell-px: var(--space-4);
+
+  /* ---------- Layering ---------- */
+  --z-sticky: 10;
+  --z-sidebar: 30;
+  --z-topbar: 40;
+  --z-overlay: 50;
+  --z-popover: 60;
+  --z-dialog: 70;
+  --z-toast: 80;
+
+  /* ---------- Motion ---------- */
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 320ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-density="compact"] {
+  --control-h: 32px;
+  --control-h-sm: 28px;
+  --row-h: 36px;
+  --cell-px: var(--space-3);
+}
+
+/* Dark theme: Ink-based surfaces, reversed logo (p.16). Primary flips to
+   Coral with Ink text (5.8:1) because White on Coral fails (2.6:1). */
+[data-theme="dark"] {
+  --color-bg: #1D0D04;
+  --color-surface: #2A150A;
+  --color-surface-alt: #34190C;
+  --color-surface-sunken: #170A03;
+  --color-border: #4B2E1E;
+  --color-border-strong: #6A4532;
+  --color-text: #F6EDE3;
+  --color-text-muted: #CDB8A6;
+  --color-text-heading: #F7CEB7;
+  --color-text-overline: #F3B692;
+  --color-link: #F3B692;
+  --color-link-hover: #FBE7DB;
+  --color-primary: var(--vx-coral);
+  --color-primary-hover: #EF9D6E;
+  --color-primary-active: #F3B692;
+  --color-on-primary: var(--vx-ink);
+  --color-primary-subtle: #4A2414;
+  --color-focus: #8FADBA;
+  --color-success-subtle: #1E3631;
+  --color-info-subtle: #1F3440;
+  --color-warning: #E3C8A6;
+  --color-warning-subtle: #3A2A12;
+  --color-danger: #F4877B;
+  --color-danger-subtle: #3D1712;
+  --color-neutral-subtle: #3B2417;
+  --color-skeleton: #3A2214;
+  --color-skeleton-shine: #4A2D1C;
+  --color-inverse-bg: #F6EDE3;
+  --color-inverse-text: var(--vx-ink);
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-wordmark-veri: var(--vx-ivory);  /* reversed lockup on dark (p.16) */
+  --color-env-bg: #3A2A12;
+  --color-env-text: #E3C8A6;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 4px 10px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; --dur-slow: 0ms; }
+}
